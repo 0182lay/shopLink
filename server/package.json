@@ -7,8 +7,14 @@
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "tsx watch src/server.ts",
+        "prisma:generate": "prisma generate",
+        "prisma:migrate:deploy": "prisma migrate deploy",
         "build": "tsc",
+        "render-build": "npm run prisma:migrate:deploy && npm run prisma:generate && npm run build",
         "start": "node dist/server.js"
+    },
+    "engines": {
+        "node": ">=22"
     },
     "keywords": [],
     "author": "",
