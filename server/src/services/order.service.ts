@@ -49,6 +49,39 @@ const buildOrderSummary = (order: Awaited<ReturnType<typeof getOrderById>>) => {
         .join("\n");
 };
 
+const normalizeWhatsAppPhone = (phone?: string) => {
+    if (!phone) {
+        return null;
+    }
+
+    const digits = phone.replace(/\D/g, "");
+
+    if (!digits) {
+        return null;
+    }
+
+    if (digits.startsWith("0")) {
+        return `66${digits.slice(1)}`;
+    }
+
+    return digits;
+};
+
+const buildMessageLinks = (orderSummary: string) => {
+    const whatsappPhone = normalizeWhatsAppPhone(
+        process.env.DEFAULT_WHATSAPP_PHONE,
+    );
+
+    return {
+        whatsapp: whatsappPhone
+            ? `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(
+                  orderSummary,
+              )}`
+            : null,
+        messenger: process.env.DEFAULT_MESSENGER_URL ?? null,
+    };
+};
+
 const getOrderById = (id: number) => {
     return prisma.order.findUnique({
         where: {
@@ -186,9 +219,12 @@ export const orderService = {
             },
         });
 
+        const orderSummary = buildOrderSummary(order);
+
         return {
             order,
-            orderSummary: buildOrderSummary(order),
+            orderSummary,
+            messageLinks: buildMessageLinks(orderSummary),
         };
     },
 
@@ -202,9 +238,12 @@ export const orderService = {
             throw new HttpError(404, "Order not found");
         }
 
+        const orderSummary = buildOrderSummary(order);
+
         return {
             order,
-            orderSummary: buildOrderSummary(order),
+            orderSummary,
+            messageLinks: buildMessageLinks(orderSummary),
         };
     },
 
@@ -245,9 +284,12 @@ export const orderService = {
         }
 
         if (order.status === status) {
+            const orderSummary = buildOrderSummary(order);
+
             return {
                 order,
-                orderSummary: buildOrderSummary(order),
+                orderSummary,
+                messageLinks: buildMessageLinks(orderSummary),
             };
         }
 
@@ -314,9 +356,12 @@ export const orderService = {
             });
         });
 
+        const orderSummary = buildOrderSummary(updatedOrder);
+
         return {
             order: updatedOrder,
-            orderSummary: buildOrderSummary(updatedOrder),
+            orderSummary,
+            messageLinks: buildMessageLinks(orderSummary),
         };
     },
 };

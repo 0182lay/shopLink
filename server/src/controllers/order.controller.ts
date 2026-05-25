@@ -95,6 +95,7 @@ export const createOrder = async (req: Request, res: Response) => {
         success: true,
         data: result.order,
         orderSummary: result.orderSummary,
+        messageLinks: result.messageLinks,
     });
 };
 
@@ -132,6 +133,7 @@ export const getOrderById = async (
         success: true,
         data: result.order,
         orderSummary: result.orderSummary,
+        messageLinks: result.messageLinks,
     });
 };
 
@@ -165,5 +167,6 @@ export const updateOrderStatus = async (
         success: true,
         data: result.order,
         orderSummary: result.orderSummary,
+        messageLinks: result.messageLinks,
     });
 };

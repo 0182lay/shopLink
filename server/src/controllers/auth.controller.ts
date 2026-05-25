@@ -23,7 +23,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
     return res.status(201).json({
         success: true,
         data: result.admin,
-        token: result.token,
+        token: `Bearer ${result.token}`,
     });
 };
 
@@ -48,6 +48,6 @@ export const loginAdmin = async (req: Request, res: Response) => {
     return res.status(200).json({
         success: true,
         data: result.admin,
-        token: result.token,
+        token: `Bearer ${result.token}`,
     });
 };

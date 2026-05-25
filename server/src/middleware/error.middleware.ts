@@ -36,6 +36,13 @@ const handlePrismaError = (error: Prisma.PrismaClientKnownRequestError) => {
         };
     }
 
+    if (error.code === "P2022") {
+        return {
+            statusCode: 500,
+            message: "Database schema is missing a required column",
+        };
+    }
+
     return {
         statusCode: 500,
         message: "Database error",

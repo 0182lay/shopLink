@@ -76,6 +76,14 @@ export const authService = {
             where: {
                 email: data.email.toLowerCase(),
             },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                passwordHash: true,
+                role: true,
+                createdAt: true,
+            },
         });
 
         if (!user) {
