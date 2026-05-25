@@ -11,7 +11,7 @@
         "prisma:migrate:deploy": "prisma migrate deploy",
         "build": "tsc",
         "render-build": "npm run prisma:migrate:deploy && npm run prisma:generate && npm run build",
-        "start": "node dist/server.js"
+        "start": "tsx src/server.ts"
     },
     "engines": {
         "node": ">=22"
