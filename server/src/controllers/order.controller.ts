@@ -34,7 +34,7 @@ export const getOrdersByStoreId = async (
     if (Number.isNaN(storeId)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -72,7 +72,7 @@ export const createOrder = async (req: Request, res: Response) => {
     ) {
         return res.status(400).json({
             success: false,
-            message: "Store, customer information and items are required",
+            message: "ຕ້ອງລະບຸຮ້ານ, ຂໍ້ມູນລູກຄ້າ ແລະ ລາຍການສິນຄ້າ",
         });
     }
 
@@ -123,7 +123,7 @@ export const getOrderById = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid order id",
+            message: "order id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -150,14 +150,14 @@ export const updateOrderStatus = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid order id",
+            message: "order id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
     if (!orderStatuses.includes(status)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid order status",
+            message: "ສະຖານະ order ບໍ່ຖືກຕ້ອງ",
         });
     }
 

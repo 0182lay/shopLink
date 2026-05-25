@@ -26,7 +26,7 @@ export const profileService = {
         });
 
         if (!user) {
-            throw new HttpError(404, "User not found");
+            throw new HttpError(404, "ບໍ່ພົບຜູ້ໃຊ້");
         }
 
         return user;

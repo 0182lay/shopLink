@@ -12,7 +12,7 @@ export const createStore = async (req: Request, res: Response) => {
     if (!name || !slug) {
         return res.status(400).json({
             success: false,
-            message: "Store name and slug are required",
+            message: "ຕ້ອງລະບຸຊື່ຮ້ານ ແລະ slug",
         });
     }
 
@@ -53,7 +53,7 @@ export const getStoreById = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -62,7 +62,7 @@ export const getStoreById = async (
     if (!store) {
         return res.status(404).json({
             success: false,
-            message: "Store not found",
+            message: "ບໍ່ພົບຮ້ານ",
         });
     }
 
@@ -84,7 +84,7 @@ export const getStoreBySlug = async (
     if (!store) {
         return res.status(404).json({
             success: false,
-            message: "Store not found",
+            message: "ບໍ່ພົບຮ້ານ",
         });
     }
 
@@ -106,7 +106,7 @@ export const updateStore = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -137,7 +137,7 @@ export const deleteStore = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -161,7 +161,7 @@ export const restoreStore = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 

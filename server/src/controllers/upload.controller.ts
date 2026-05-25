@@ -5,7 +5,7 @@ export const uploadImage = async (req: Request, res: Response) => {
     if (!req.file) {
         return res.status(400).json({
             success: false,
-            message: "Image file is required",
+            message: "ຕ້ອງແນບໄຟລ໌ຮູບພາບ",
         });
     }
 

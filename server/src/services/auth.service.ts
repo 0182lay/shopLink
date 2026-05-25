@@ -18,7 +18,7 @@ const getJwtSecret = () => {
     const secret = process.env.JWT_SECRET;
 
     if (!secret) {
-        throw new HttpError(500, "JWT secret is not configured");
+        throw new HttpError(500, "ຍັງບໍ່ໄດ້ຕັ້ງຄ່າ JWT secret");
     }
 
     return secret;
@@ -87,7 +87,7 @@ export const authService = {
         });
 
         if (!user) {
-            throw new HttpError(401, "Invalid email or password");
+            throw new HttpError(401, "ອີເມວ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
         }
 
         const isPasswordValid = await bcrypt.compare(
@@ -96,7 +96,7 @@ export const authService = {
         );
 
         if (!isPasswordValid) {
-            throw new HttpError(401, "Invalid email or password");
+            throw new HttpError(401, "ອີເມວ ຫຼື ລະຫັດຜ່ານບໍ່ຖືກຕ້ອງ");
         }
 
         const token = createToken(user);

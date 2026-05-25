@@ -13,7 +13,7 @@ export const createCategory = async (req: Request, res: Response) => {
     if (!parsedStoreId || !name || !slug) {
         return res.status(400).json({
             success: false,
-            message: "Store id, category name and slug are required",
+            message: "ຕ້ອງລະບຸ store id, ຊື່ໝວດໝູ່ ແລະ slug",
         });
     }
 
@@ -54,7 +54,7 @@ export const getCategoriesByStoreId = async (
     if (Number.isNaN(storeId)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -78,7 +78,7 @@ export const getCategoryById = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid category id",
+            message: "category id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -87,7 +87,7 @@ export const getCategoryById = async (
     if (!category) {
         return res.status(404).json({
             success: false,
-            message: "Category not found",
+            message: "ບໍ່ພົບໝວດໝູ່",
         });
     }
 
@@ -109,7 +109,7 @@ export const updateCategory = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid category id",
+            message: "category id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -139,7 +139,7 @@ export const deleteCategory = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid category id",
+            message: "category id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -163,7 +163,7 @@ export const restoreCategory = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid category id",
+            message: "category id ບໍ່ຖືກຕ້ອງ",
         });
     }
 

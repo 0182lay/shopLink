@@ -19,7 +19,7 @@ export const uploadImageMiddleware = multer({
             return callback(
                 new HttpError(
                     400,
-                    "Only JPEG, PNG, WEBP and GIF images are allowed",
+                    "ອະນຸຍາດສະເພາະຮູບ JPEG, PNG, WEBP ແລະ GIF",
                 ),
             );
         }

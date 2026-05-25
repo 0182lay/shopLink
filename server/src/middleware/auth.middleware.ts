@@ -13,7 +13,7 @@ const getJwtSecret = () => {
     const secret = process.env.JWT_SECRET;
 
     if (!secret) {
-        throw new HttpError(500, "JWT secret is not configured");
+        throw new HttpError(500, "ຍັງບໍ່ໄດ້ຕັ້ງຄ່າ JWT secret");
     }
 
     return secret;
@@ -45,7 +45,7 @@ export const protect: RequestHandler = async (req, _res, next) => {
     const authorization = req.headers.authorization;
 
     if (!authorization?.startsWith("Bearer ")) {
-        return next(new HttpError(401, "Authentication token is required"));
+        return next(new HttpError(401, "ຕ້ອງມີ token ສຳລັບຢືນຢັນຕົວຕົນ"));
     }
 
     const token = authorization.split(" ")[1];
@@ -64,7 +64,7 @@ export const protect: RequestHandler = async (req, _res, next) => {
     });
 
     if (!user) {
-        return next(new HttpError(401, "User account no longer exists"));
+        return next(new HttpError(401, "ບັນຊີຜູ້ໃຊ້ນີ້ບໍ່ມີແລ້ວ"));
     }
 
     req.user = user;
@@ -113,7 +113,7 @@ export const requireAdmin: RequestHandler[] = [
     protect,
     (req, _res, next) => {
         if (req.user?.role !== "ADMIN" && req.user?.role !== "SUPER_ADMIN") {
-            return next(new HttpError(403, "Admin permission is required"));
+            return next(new HttpError(403, "ຕ້ອງມີສິດ admin"));
         }
 
         return next();

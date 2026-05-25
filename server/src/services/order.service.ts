@@ -32,18 +32,19 @@ const buildOrderSummary = (order: Awaited<ReturnType<typeof getOrderById>>) => {
         .join("\n");
 
     return [
-        `Order #${order.id}`,
-        `Customer: ${order.customerName}`,
-        `Phone: ${order.customerPhone}`,
-        `Address: ${order.customerAddress}`,
-        order.note ? `Note: ${order.note}` : undefined,
+        `ອໍເດີ #${order.id}`,
+        `ລູກຄ້າ: ${order.customerName}`,
+        `ເບີໂທ: ${order.customerPhone}`,
+        `ທີ່ຢູ່: ${order.customerAddress}`,
+        order.note ? `ໝາຍເຫດ: ${order.note}` : undefined,
         "",
-        "Items:",
+        "ລາຍການສິນຄ້າ:",
         itemLines,
         "",
-        `Delivery fee: ${order.deliveryFee}`,
-        `Total: ${order.totalPrice}`,
-        `Status: ${order.status}`,
+        Number(order.deliveryFee) > 0
+            ? `ຄ່າສົ່ງ: ${order.deliveryFee}`
+            : undefined,
+        `ລວມທັງໝົດ: ${order.totalPrice}`,
     ]
         .filter(Boolean)
         .join("\n");
@@ -141,7 +142,7 @@ export const orderService = {
         });
 
         if (!store) {
-            throw new HttpError(404, "Store not found");
+            throw new HttpError(404, "ບໍ່ພົບຮ້ານ");
         }
 
         const productIds = data.items.map((item) => item.productId);
@@ -157,7 +158,7 @@ export const orderService = {
         });
 
         if (products.length !== productIds.length) {
-            throw new HttpError(400, "Some products are not available");
+            throw new HttpError(400, "ສິນຄ້າບາງລາຍການບໍ່ພ້ອມຂາຍ");
         }
 
         const orderItems = data.items.map((item) => {
@@ -166,17 +167,17 @@ export const orderService = {
             );
 
             if (!product) {
-                throw new HttpError(400, "Product not found");
+                throw new HttpError(400, "ບໍ່ພົບສິນຄ້າ");
             }
 
             if (!Number.isInteger(item.quantity) || item.quantity <= 0) {
-                throw new HttpError(400, "Product quantity must be positive");
+                throw new HttpError(400, "ຈຳນວນສິນຄ້າຕ້ອງຫຼາຍກວ່າ 0");
             }
 
             if (product.stock < item.quantity) {
                 throw new HttpError(
                     400,
-                    `Not enough stock for ${product.name}`,
+                    `ສິນຄ້າ ${product.name} ມີຈຳນວນບໍ່ພໍ`,
                 );
             }
 
@@ -235,7 +236,7 @@ export const orderService = {
         const order = await getOrderById(id);
 
         if (!order) {
-            throw new HttpError(404, "Order not found");
+            throw new HttpError(404, "ບໍ່ພົບ order");
         }
 
         const orderSummary = buildOrderSummary(order);
@@ -280,7 +281,7 @@ export const orderService = {
         });
 
         if (!order) {
-            throw new HttpError(404, "Order not found");
+            throw new HttpError(404, "ບໍ່ພົບ order");
         }
 
         if (order.status === status) {
@@ -310,7 +311,7 @@ export const orderService = {
                     if (!product || product.stock < item.quantity) {
                         throw new HttpError(
                             400,
-                            `Not enough stock for ${item.productName}`,
+                            `ສິນຄ້າ ${item.productName} ມີຈຳນວນບໍ່ພໍ`,
                         );
                     }
 

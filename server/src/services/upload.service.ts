@@ -22,7 +22,7 @@ const uploadBuffer = ({ buffer, folder }: UploadImageData) => {
                 }
 
                 if (!result) {
-                    return reject(new HttpError(500, "Image upload failed"));
+                    return reject(new HttpError(500, "ອັບໂຫຼດຮູບພາບບໍ່ສຳເລັດ"));
                 }
 
                 return resolve(result);

@@ -8,7 +8,7 @@ const isDevelopment = process.env.NODE_ENV === "development";
 // 2. ສ້າງ HttpError 404 ແລ້ວສົ່ງໄປ error middleware
 // 3. ເຮັດໃຫ້ response ບໍ່ກາຍເປັນ HTML error ຍາວໆ
 export const notFoundMiddleware: RequestHandler = (req, _res, next) => {
-    next(new HttpError(404, `Route not found: ${req.method} ${req.originalUrl}`));
+    next(new HttpError(404, `ບໍ່ພົບ route: ${req.method} ${req.originalUrl}`));
 };
 
 // 1. ກວດ error ທີ່ມາຈາກ Prisma
@@ -18,34 +18,34 @@ const handlePrismaError = (error: Prisma.PrismaClientKnownRequestError) => {
     if (error.code === "P2002") {
         return {
             statusCode: 409,
-            message: "This record already exists",
+            message: "ຂໍ້ມູນນີ້ມີຢູ່ແລ້ວ",
         };
     }
 
     if (error.code === "P2003") {
         return {
             statusCode: 400,
-            message: "Related record does not exist",
+            message: "ຂໍ້ມູນທີ່ອ້າງອີງບໍ່ມີຢູ່",
         };
     }
 
     if (error.code === "P2025") {
         return {
             statusCode: 404,
-            message: "Record not found",
+            message: "ບໍ່ພົບຂໍ້ມູນ",
         };
     }
 
     if (error.code === "P2022") {
         return {
             statusCode: 500,
-            message: "Database schema is missing a required column",
+            message: "ໂຄງສ້າງຖານຂໍ້ມູນຂາດ column ທີ່ຈຳເປັນ",
         };
     }
 
     return {
         statusCode: 500,
-        message: "Database error",
+        message: "ຖານຂໍ້ມູນມີບັນຫາ",
     };
 };
 
@@ -59,7 +59,7 @@ export const errorMiddleware: ErrorRequestHandler = (
     _next,
 ) => {
     let statusCode = 500;
-    let message = "Internal server error";
+    let message = "ລະບົບມີບັນຫາ";
 
     if (error instanceof HttpError) {
         statusCode = error.statusCode;

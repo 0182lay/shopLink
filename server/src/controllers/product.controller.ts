@@ -28,7 +28,7 @@ export const createProduct = async (req: Request, res: Response) => {
     if (!parsedStoreId || !name || Number.isNaN(parsedPrice)) {
         return res.status(400).json({
             success: false,
-            message: "Store id, product name and price are required",
+            message: "ຕ້ອງລະບຸ store id, ຊື່ສິນຄ້າ ແລະ ລາຄາ",
         });
     }
 
@@ -72,7 +72,7 @@ export const getProductsByStoreId = async (
     if (Number.isNaN(storeId)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid store id",
+            message: "store id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -96,7 +96,7 @@ export const getProductsByCategoryId = async (
     if (Number.isNaN(categoryId)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid category id",
+            message: "category id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -120,7 +120,7 @@ export const getProductById = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid product id",
+            message: "product id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -129,7 +129,7 @@ export const getProductById = async (
     if (!product) {
         return res.status(404).json({
             success: false,
-            message: "Product not found",
+            message: "ບໍ່ພົບສິນຄ້າ",
         });
     }
 
@@ -151,7 +151,7 @@ export const updateProduct = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid product id",
+            message: "product id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -197,7 +197,7 @@ export const deleteProduct = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid product id",
+            message: "product id ບໍ່ຖືກຕ້ອງ",
         });
     }
 
@@ -221,7 +221,7 @@ export const restoreProduct = async (
     if (Number.isNaN(id)) {
         return res.status(400).json({
             success: false,
-            message: "Invalid product id",
+            message: "product id ບໍ່ຖືກຕ້ອງ",
         });
     }
 

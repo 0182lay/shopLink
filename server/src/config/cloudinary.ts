@@ -13,7 +13,7 @@ export const configureCloudinary = () => {
     if (missingEnv.length > 0) {
         throw new HttpError(
             500,
-            `Cloudinary is not configured: ${missingEnv.join(", ")}`,
+            `ຍັງບໍ່ໄດ້ຕັ້ງຄ່າ Cloudinary: ${missingEnv.join(", ")}`,
         );
     }
 

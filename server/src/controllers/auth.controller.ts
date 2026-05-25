@@ -10,7 +10,7 @@ export const registerAdmin = async (req: Request, res: Response) => {
     if (!name || !email || !password) {
         return res.status(400).json({
             success: false,
-            message: "Name, email and password are required",
+            message: "ຕ້ອງລະບຸຊື່, ອີເມວ ແລະ ລະຫັດຜ່ານ",
         });
     }
 
@@ -36,7 +36,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
     if (!email || !password) {
         return res.status(400).json({
             success: false,
-            message: "Email and password are required",
+            message: "ຕ້ອງລະບຸອີເມວ ແລະ ລະຫັດຜ່ານ",
         });
     }
 
