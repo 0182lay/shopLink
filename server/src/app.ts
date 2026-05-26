@@ -13,6 +13,14 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.get("/", (_req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "ShopLink API is running",
+        status: "live",
+    });
+});
+
 const routesPath = path.join(__dirname, "routes");
 
 export const loadRoutes = async (app: Express) => {
