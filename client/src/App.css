@@ -1,0 +1,167 @@
+.app-shell {
+  min-height: 100svh;
+  width: min(1080px, 100%);
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.page-header {
+  max-width: 720px;
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #0f766e;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1 {
+  color: #172026;
+  font-size: 44px;
+  line-height: 1.08;
+}
+
+.page-header p:not(.eyebrow) {
+  margin-top: 14px;
+  color: #5c6a72;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 16px;
+}
+
+.panel {
+  border: 1px solid #d8e0e3;
+  border-radius: 8px;
+  background: #ffffff;
+  padding: 20px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.panel h2 {
+  color: #172026;
+  font-size: 22px;
+}
+
+.status-badge,
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  border-radius: 999px;
+  padding: 0 10px;
+  color: #41515d;
+  background: #eef3f4;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.status-badge.success {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.status-badge.error {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.status-badge.loading {
+  color: #854d0e;
+  background: #fef3c7;
+}
+
+.info-list {
+  display: grid;
+  gap: 14px;
+}
+
+.info-list span {
+  display: block;
+  margin-bottom: 6px;
+  color: #65737d;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+code {
+  display: inline-flex;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  border-radius: 6px;
+  background: #eef6f5;
+  color: #172026;
+  padding: 5px 8px;
+}
+
+.muted,
+.info-list p,
+.product-row p {
+  color: #5c6a72;
+  line-height: 1.55;
+}
+
+.product-list {
+  display: grid;
+  gap: 10px;
+}
+
+.product-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border: 1px solid #e6ecef;
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.product-row h3 {
+  color: #172026;
+  font-size: 16px;
+}
+
+.product-row strong {
+  flex: 0 0 auto;
+  color: #0f766e;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    padding-top: 28px;
+  }
+
+  h1 {
+    font-size: 34px;
+  }
+
+  .panel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-row {
+    align-items: start;
+    flex-direction: column;
+  }
+}
