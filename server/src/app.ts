@@ -21,6 +21,14 @@ app.get("/", (_req, res) => {
     });
 });
 
+app.get("/api", (_req, res) => {
+    return res.status(200).json({
+        success: true,
+        message: "ShopLink API root",
+        endpoints: ["/api/health", "/api/stores", "/api/products"],
+    });
+});
+
 const routesPath = path.join(__dirname, "routes");
 
 export const loadRoutes = async (app: Express) => {

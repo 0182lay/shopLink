@@ -18,4 +18,8 @@ const startServer = async () => {
     });
 };
 
-startServer();
+startServer().catch((error) => {
+    console.error("Failed to start ShopLink API");
+    console.error(error);
+    process.exit(1);
+});
