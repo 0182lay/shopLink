@@ -17,6 +17,7 @@ app.get("/", (_req, res) => {
     return res.status(200).json({
         success: true,
         message: "ShopLink API is running",
+        version: "1.0.0",
         status: "live",
     });
 });
