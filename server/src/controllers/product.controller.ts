@@ -15,6 +15,7 @@ export const createProduct = async (req: Request, res: Response) => {
         price,
         stock,
         imageUrl,
+        isFeatured,
     } = req.body;
     const parsedStoreId = Number(storeId);
     const parsedCategoryId =
@@ -40,6 +41,7 @@ export const createProduct = async (req: Request, res: Response) => {
         price: parsedPrice,
         stock: parsedStock,
         imageUrl,
+        isFeatured,
     });
 
     return res.status(201).json({
@@ -53,6 +55,15 @@ export const createProduct = async (req: Request, res: Response) => {
 // 3. ສົ່ງລາຍການ product ກັບໄປໃຫ້ client
 export const getProducts = async (_req: Request, res: Response) => {
     const products = await productService.getAllProducts();
+
+    return res.status(200).json({
+        success: true,
+        data: products,
+    });
+};
+
+export const getFeaturedProducts = async (_req: Request, res: Response) => {
+    const products = await productService.getFeaturedProducts();
 
     return res.status(200).json({
         success: true,
@@ -164,6 +175,7 @@ export const updateProduct = async (
         stock,
         imageUrl,
         isActive,
+        isFeatured,
     } = req.body;
     const product = await productService.updateProduct(id, {
         storeId: storeId === undefined ? undefined : Number(storeId),
@@ -177,6 +189,7 @@ export const updateProduct = async (
         stock: stock === undefined ? undefined : Number(stock),
         imageUrl,
         isActive,
+        isFeatured,
     });
 
     return res.status(200).json({

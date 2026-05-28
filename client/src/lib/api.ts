@@ -20,6 +20,7 @@ export type Product = {
   stock: number;
   imageUrl?: string | null;
   isActive: boolean;
+  isFeatured?: boolean;
 };
 
 export async function apiGet<T>(path: string): Promise<T> {
@@ -52,4 +53,5 @@ export const api = {
   baseUrl: API_BASE_URL,
   health: () => request<never>("/health"),
   products: () => request<Product[]>("/products"),
+  featuredProducts: () => request<Product[]>("/products/featured"),
 };

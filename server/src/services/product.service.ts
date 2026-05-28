@@ -8,6 +8,7 @@ type CreateProductData = {
     price: number;
     stock?: number;
     imageUrl?: string;
+    isFeatured?: boolean;
 };
 
 type UpdateProductData = Partial<Omit<CreateProductData, "storeId">> & {
@@ -23,6 +24,19 @@ export const productService = {
         return prisma.product.findMany({
             where: {
                 deletedAt: null,
+            },
+            orderBy: {
+                createdAt: "desc",
+            },
+        });
+    },
+
+    getFeaturedProducts() {
+        return prisma.product.findMany({
+            where: {
+                deletedAt: null,
+                isActive: true,
+                isFeatured: true,
             },
             orderBy: {
                 createdAt: "desc",

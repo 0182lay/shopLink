@@ -2,6 +2,7 @@ import express from "express";
 import {
     createProduct,
     deleteProduct,
+    getFeaturedProducts,
     getProductById,
     getProducts,
     getProductsByCategoryId,
@@ -28,6 +29,7 @@ router.post(
     createProduct,
 );
 router.get("/products", getProducts);
+router.get("/products/featured", getFeaturedProducts);
 router.get("/stores/:storeId/products", getProductsByStoreId);
 router.get("/categories/:categoryId/products", getProductsByCategoryId);
 router.get("/products/:id", getProductById);

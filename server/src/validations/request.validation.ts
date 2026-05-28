@@ -80,6 +80,7 @@ export const createProductSchema = {
     price: { type: "number", required: true, min: 0 },
     stock: { type: "number", min: 0, integer: true },
     imageUrl: { type: "string", format: "url", maxLength: 500 },
+    isFeatured: { type: "boolean" },
 } as const;
 
 export const updateProductSchema = {
@@ -91,6 +92,7 @@ export const updateProductSchema = {
     stock: { type: "number", min: 0, integer: true },
     imageUrl: { type: "string", format: "url", maxLength: 500 },
     isActive: { type: "boolean" },
+    isFeatured: { type: "boolean" },
 } as const;
 
 export const createOrderSchema = {

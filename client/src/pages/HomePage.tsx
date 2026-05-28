@@ -2,6 +2,7 @@ import { HomeHeader } from "../components/home/HomeHeader";
 import { HomeHero } from "../components/home/HomeHero";
 import { HomeServiceStrip } from "../components/home/HomeServiceStrip";
 import { HomeShopSection } from "../components/home/HomeShopSection";
+import { HomeFeaturedProducts } from "../components/home/HomeFeaturedProducts";
 
 export function HomePage() {
     return (
@@ -9,6 +10,7 @@ export function HomePage() {
             <HomeHeader />
             <HomeHero />
             <HomeShopSection />
+            <HomeFeaturedProducts />
             <HomeServiceStrip />
         </main>
     );
