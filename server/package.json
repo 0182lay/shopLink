@@ -1,6 +1,7 @@
 {
     "name": "server",
     "version": "1.0.0",
+    "packageManager": "yarn@1.22.22",
     "description": "",
     "main": "index.js",
     "type": "module",
@@ -12,6 +13,7 @@
         "prisma:seed": "tsx prisma/seed.ts",
         "build": "tsc && esbuild src/server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/server.js",
         "render-build": "npm run prisma:migrate:deploy && npm run prisma:generate && npm run build",
+        "render-build:yarn": "yarn prisma:migrate:deploy && yarn prisma:generate && yarn build",
         "start": "node dist/server.js"
     },
     "engines": {

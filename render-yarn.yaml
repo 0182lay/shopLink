@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: shoplink-api
+    runtime: node
+    rootDir: server
+    plan: free
+    buildCommand: corepack enable && yarn install && yarn render-build:yarn
+    startCommand: yarn start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: DEFAULT_WHATSAPP_PHONE
+        sync: false
+      - key: DEFAULT_MESSENGER_URL
+        sync: false
