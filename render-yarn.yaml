@@ -4,7 +4,7 @@ services:
     runtime: node
     rootDir: server
     plan: free
-    buildCommand: corepack enable && yarn install && yarn render-build:yarn
+    buildCommand: yarn install --production=false && yarn render-build:yarn
     startCommand: yarn start
     autoDeploy: true
     envVars:
