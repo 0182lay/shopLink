@@ -1,13 +1,16 @@
 import express, { Express } from "express";
 import morgan from "morgan";
-import fs from "fs";
-import path from "path";
-import { fileURLToPath, pathToFileURL } from "url";
 import cors from "cors";
+import authRoutes from "./routes/auth.route";
+import categoryRoutes from "./routes/category.route";
+import healthRoutes from "./routes/health.route";
+import orderRoutes from "./routes/order.route";
+import productRoutes from "./routes/product.route";
+import profileRoutes from "./routes/profile.route";
+import storeRoutes from "./routes/store.route";
+import uploadRoutes from "./routes/upload.route";
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
@@ -30,23 +33,22 @@ app.get("/api", (_req, res) => {
     });
 });
 
-const routesPath = path.join(__dirname, "routes");
-
 export const loadRoutes = async (app: Express) => {
-    const files = fs
-        .readdirSync(routesPath)
-        .filter(
-            (file) => file.endsWith(".route.ts") || file.endsWith(".route.js"),
-        );
+    const routes = [
+        ["auth.route", authRoutes],
+        ["category.route", categoryRoutes],
+        ["health.route", healthRoutes],
+        ["order.route", orderRoutes],
+        ["product.route", productRoutes],
+        ["profile.route", profileRoutes],
+        ["store.route", storeRoutes],
+        ["upload.route", uploadRoutes],
+    ] as const;
 
-    for (const file of files) {
-        const routePath = pathToFileURL(path.join(routesPath, file)).href;
-        const routeModule = await import(routePath);
-
-        app.use("/api", routeModule.default);
-
-        console.log(`✅ loaded route: ${file}`);
-    }
+    routes.forEach(([name, router]) => {
+        app.use("/api", router);
+        console.log(`loaded route: ${name}`);
+    });
 };
 
 export default app;
