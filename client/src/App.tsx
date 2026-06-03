@@ -1,7 +1,52 @@
-import { HomePage } from './pages/HomePage'
+import { useEffect, useState } from "react";
+import { HomePage } from "./pages/HomePage";
+import { LoginPage } from "./pages/LoginPage";
+import { ProductsPage } from "./pages/ProductsPage";
+import { RegisterPage } from "./pages/RegisterPage";
 
-function App() {
-  return <HomePage />
+type AppRoute = "home" | "login" | "register" | "products";
+
+function getRoute(): AppRoute {
+    const hash = window.location.hash.replace(/^#\/?/, "");
+
+    if (hash === "login") {
+        return "login";
+    }
+
+    if (hash === "register") {
+        return "register";
+    }
+
+    if (hash === "products") {
+        return "products";
+    }
+
+    return "home";
 }
 
-export default App
+function App() {
+    const [route, setRoute] = useState<AppRoute>(() => getRoute());
+
+    useEffect(() => {
+        const handleHashChange = () => setRoute(getRoute());
+
+        window.addEventListener("hashchange", handleHashChange);
+        return () => window.removeEventListener("hashchange", handleHashChange);
+    }, []);
+
+    if (route === "login") {
+        return <LoginPage />;
+    }
+
+    if (route === "register") {
+        return <RegisterPage />;
+    }
+
+    if (route === "products") {
+        return <ProductsPage />;
+    }
+
+    return <HomePage />;
+}
+
+export default App;

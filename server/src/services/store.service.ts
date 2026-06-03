@@ -5,6 +5,7 @@ type CreateStoreData = {
     slug: string;
     description?: string;
     logoUrl?: string;
+    bannerUrl?: string;
 };
 
 type UpdateStoreData = Partial<CreateStoreData> & {

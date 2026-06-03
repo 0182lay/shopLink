@@ -42,6 +42,7 @@ export const createStoreSchema = {
     },
     description: { type: "string", maxLength: 1000 },
     logoUrl: { type: "string", format: "url", maxLength: 500 },
+    bannerUrl: { type: "string", format: "url", maxLength: 500 },
 } as const;
 
 export const updateStoreSchema = {
@@ -49,6 +50,7 @@ export const updateStoreSchema = {
     slug: { type: "string", minLength: 2, maxLength: 80, custom: slugRule },
     description: { type: "string", maxLength: 1000 },
     logoUrl: { type: "string", format: "url", maxLength: 500 },
+    bannerUrl: { type: "string", format: "url", maxLength: 500 },
     isActive: { type: "boolean" },
 } as const;
 

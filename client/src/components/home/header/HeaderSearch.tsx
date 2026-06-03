@@ -8,7 +8,7 @@ type HeaderSearchProps = {
 export function HeaderSearch({ id, compact = false }: HeaderSearchProps) {
     return (
         <form
-            className={`flex overflow-hidden rounded-md border border-red-100 bg-white shadow-sm ${
+            className={`flex min-w-0 overflow-hidden rounded-md border border-red-100 bg-white shadow-sm ${
                 compact ? "w-full" : "w-full max-w-2xl"
             }`}
         >
@@ -23,7 +23,7 @@ export function HeaderSearch({ id, compact = false }: HeaderSearchProps) {
             />
             <button
                 type="submit"
-                className="grid h-10 w-14 place-items-center bg-shop-primary text-white transition hover:bg-shop-secondary"
+                className="grid h-10 w-12 shrink-0 place-items-center bg-shop-primary text-white transition hover:bg-shop-secondary sm:w-14"
                 aria-label="ຄົ້ນຫາ"
             >
                 <SearchIcon />

@@ -4,6 +4,6 @@ export type Store = {
   slug: string;
   description?: string | null;
   logoUrl?: string | null;
+  bannerUrl?: string | null;
   isActive: boolean;
 };
-

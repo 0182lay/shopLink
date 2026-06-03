@@ -7,7 +7,7 @@ const parseId = (id: string) => Number.parseInt(id, 10);
 // 2. ກວດວ່າ name ແລະ slug ຖືກສົ່ງມາຫຼືບໍ່
 // 3. ເອີ້ນ service ເພື່ອສ້າງຮ້ານໃນ database
 export const createStore = async (req: Request, res: Response) => {
-    const { name, slug, description, logoUrl } = req.body;
+    const { name, slug, description, logoUrl, bannerUrl } = req.body;
 
     if (!name || !slug) {
         return res.status(400).json({
@@ -21,6 +21,7 @@ export const createStore = async (req: Request, res: Response) => {
         slug,
         description,
         logoUrl,
+        bannerUrl,
     });
 
     return res.status(201).json({
@@ -110,12 +111,13 @@ export const updateStore = async (
         });
     }
 
-    const { name, slug, description, logoUrl, isActive } = req.body;
+    const { name, slug, description, logoUrl, bannerUrl, isActive } = req.body;
     const store = await storeService.updateStore(id, {
         name,
         slug,
         description,
         logoUrl,
+        bannerUrl,
         isActive,
     });
 

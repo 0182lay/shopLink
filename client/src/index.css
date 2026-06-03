@@ -20,6 +20,11 @@ body {
   color: var(--color-shop-text);
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 @keyframes fadeUp {
   from {
     opacity: 0;

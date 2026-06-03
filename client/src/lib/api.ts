@@ -23,6 +23,34 @@ export type Product = {
   isFeatured?: boolean;
 };
 
+export type Category = {
+  id: number;
+  storeId: number;
+  name: string;
+  slug: string;
+  iconUrl?: string | null;
+  isActive: boolean;
+  createdAt?: string;
+};
+
+export type AuthUser = {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  createdAt: string;
+};
+
+export type AuthPayload = {
+  name?: string;
+  email: string;
+  password: string;
+};
+
+export type AuthResponse = ApiResponse<AuthUser> & {
+  token?: string;
+};
+
 export async function apiGet<T>(path: string): Promise<T> {
   const response = await fetch(`${API_BASE_URL}${path}`);
   const payload = (await response.json()) as ApiResponse<T>;
@@ -38,8 +66,17 @@ export async function apiGet<T>(path: string): Promise<T> {
   return payload.data;
 }
 
-async function request<T>(path: string): Promise<ApiResponse<T>> {
-  const response = await fetch(`${API_BASE_URL}/api${path}`);
+async function request<T>(
+  path: string,
+  init?: RequestInit,
+): Promise<ApiResponse<T>> {
+  const response = await fetch(`${API_BASE_URL}/api${path}`, {
+    headers: {
+      "Content-Type": "application/json",
+      ...init?.headers,
+    },
+    ...init,
+  });
   const payload = (await response.json()) as ApiResponse<T>;
 
   if (!response.ok || payload.success === false) {
@@ -52,6 +89,17 @@ async function request<T>(path: string): Promise<ApiResponse<T>> {
 export const api = {
   baseUrl: API_BASE_URL,
   health: () => request<never>("/health"),
+  categories: () => request<Category[]>("/categories"),
   products: () => request<Product[]>("/products"),
   featuredProducts: () => request<Product[]>("/products/featured"),
+  register: (payload: Required<AuthPayload>) =>
+    request<AuthUser>("/auth/register", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }) as Promise<AuthResponse>,
+  login: (payload: AuthPayload) =>
+    request<AuthUser>("/auth/login", {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }) as Promise<AuthResponse>,
 };
