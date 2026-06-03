@@ -12,8 +12,8 @@
         "prisma:migrate:deploy": "prisma migrate deploy",
         "prisma:seed": "tsx prisma/seed.ts",
         "build": "tsc && esbuild src/server.ts --bundle --platform=node --format=esm --packages=external --outfile=dist/server.js",
-        "render-build": "npm run prisma:migrate:deploy && npm run prisma:generate && npm run build",
-        "render-build:yarn": "yarn prisma:migrate:deploy && yarn prisma:generate && yarn build",
+        "render-build": "npm install --include=dev && npm run prisma:migrate:deploy && npm run prisma:generate && npm run build",
+        "render-build:yarn": "yarn install --production=false && yarn prisma:migrate:deploy && yarn prisma:generate && yarn build",
         "start": "node dist/server.js"
     },
     "engines": {
