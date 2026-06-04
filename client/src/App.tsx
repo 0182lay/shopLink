@@ -3,8 +3,9 @@ import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProductsPage } from "./pages/ProductsPage";
 import { RegisterPage } from "./pages/RegisterPage";
+import { StoresPage } from "./pages/StoresPage";
 
-type AppRoute = "home" | "login" | "register" | "products";
+type AppRoute = "home" | "login" | "register" | "products" | "stores";
 
 function getRoute(): AppRoute {
     const hash = window.location.hash.replace(/^#\/?/, "");
@@ -19,6 +20,10 @@ function getRoute(): AppRoute {
 
     if (hash === "products") {
         return "products";
+    }
+
+    if (hash === "stores") {
+        return "stores";
     }
 
     return "home";
@@ -44,6 +49,10 @@ function App() {
 
     if (route === "products") {
         return <ProductsPage />;
+    }
+
+    if (route === "stores") {
+        return <StoresPage />;
     }
 
     return <HomePage />;

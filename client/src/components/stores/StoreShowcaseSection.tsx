@@ -1,53 +1,38 @@
-import { useEffect, useState } from "react";
-import { apiGet } from "../../lib/api";
 import type { Store } from "../../types/store";
-import { ShopCard } from "./ShopCard";
+import { StoreCard } from "./StoreCard";
 
-export function HomeShopSection() {
-    const [stores, setStores] = useState<Store[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+type StoreShowcaseSectionProps = {
+    stores: Store[];
+    isLoading?: boolean;
+    error?: string | null;
+    title?: string;
+    limit?: number;
+    viewAllHref?: string;
+    className?: string;
+};
 
-    useEffect(() => {
-        let isMounted = true;
-
-        async function loadStores() {
-            try {
-                const data = await apiGet<Store[]>("/api/stores");
-
-                if (isMounted) {
-                    setStores(data.filter((store) => store.isActive));
-                    setError(null);
-                }
-            } catch {
-                if (isMounted) {
-                    setError("ດຶງຂໍ້ມູນຮ້ານຄ້າບໍ່ສຳເລັດ");
-                }
-            } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
-            }
-        }
-
-        loadStores();
-
-        return () => {
-            isMounted = false;
-        };
-    }, []);
+export function StoreShowcaseSection({
+    stores,
+    isLoading = false,
+    error = null,
+    title = "ຮ້ານແນະນຳສຳລັບທ່ານ",
+    limit = 4,
+    viewAllHref = "#/stores",
+    className = "",
+}: StoreShowcaseSectionProps) {
+    const visibleStores = stores.slice(0, limit);
 
     return (
-        <section className="mx-auto mt-1 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className={className}>
             <div className="mb-4 flex items-center justify-between gap-4">
                 <h2 className="text-lg font-black text-shop-text md:text-xl">
-                    ຮ້ານແນະນຳສຳລັບທ່ານ
+                    {title}
                 </h2>
-                <button
-                    type="button"
+                <a
+                    href={viewAllHref}
                     className="inline-flex items-center gap-1 text-sm font-black text-shop-primary transition hover:text-shop-secondary"
                 >
-                    ດູທັງໝົດ
+                    ເບິ່ງທັງໝົດ
                     <svg
                         viewBox="0 0 24 24"
                         className="h-4 w-4"
@@ -62,7 +47,7 @@ export function HomeShopSection() {
                             strokeWidth="2.2"
                         />
                     </svg>
-                </button>
+                </a>
             </div>
 
             {isLoading ? (
@@ -74,18 +59,18 @@ export function HomeShopSection() {
                         />
                     ))}
                 </div>
-            ) : error && stores.length === 0 ? (
+            ) : error && visibleStores.length === 0 ? (
                 <div className="rounded-xl border border-red-100 bg-white p-6 text-sm font-semibold text-shop-primary">
                     {error}
                 </div>
-            ) : stores.length === 0 ? (
+            ) : visibleStores.length === 0 ? (
                 <div className="rounded-xl border border-gray-100 bg-white p-6 text-sm font-semibold text-gray-500">
                     ຍັງບໍ່ມີຮ້ານແນະນຳ
                 </div>
             ) : (
                 <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-                    {stores.slice(0, 4).map((store, index) => (
-                        <ShopCard key={store.id} store={store} index={index} />
+                    {visibleStores.map((store, index) => (
+                        <StoreCard key={store.id} store={store} index={index} />
                     ))}
                 </div>
             )}

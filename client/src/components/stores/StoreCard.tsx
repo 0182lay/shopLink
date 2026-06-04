@@ -1,11 +1,11 @@
 import type { Store } from "../../types/store";
 
-type ShopCardProps = {
+type StoreCardProps = {
     store: Store;
     index?: number;
 };
 
-const shopVisuals = [
+const storeVisuals = [
     {
         match: "computer",
         icon: "💻",
@@ -48,15 +48,15 @@ const shopVisuals = [
     },
 ];
 
-function getShopVisual(store: Store, index = 0) {
+function getStoreVisual(store: Store, index = 0) {
     const text = `${store.name} ${store.description ?? ""}`.toLowerCase();
-    const matched = shopVisuals.find((visual) => text.includes(visual.match));
+    const matched = storeVisuals.find((visual) => text.includes(visual.match));
 
-    return matched ?? shopVisuals[index % shopVisuals.length];
+    return matched ?? storeVisuals[index % storeVisuals.length];
 }
 
-export function ShopCard({ store, index }: ShopCardProps) {
-    const visual = getShopVisual(store, index);
+export function StoreCard({ store, index }: StoreCardProps) {
+    const visual = getStoreVisual(store, index);
     const description = store.description || visual.title;
     const hasBannerImage = Boolean(store.bannerUrl);
 

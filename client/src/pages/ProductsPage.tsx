@@ -6,6 +6,7 @@ import { ProductFilterSidebar } from "../components/products/ProductFilterSideba
 import { ProductGridCard } from "../components/products/ProductGridCard";
 import { ProductMobileControls } from "../components/products/ProductMobileControls";
 import { ProductToolbar } from "../components/products/ProductToolbar";
+import { StoreShowcaseSection } from "../components/stores/StoreShowcaseSection";
 import { api, apiGet, type Category, type Product } from "../lib/api";
 import type { Store } from "../types/store";
 
@@ -26,24 +27,35 @@ export function ProductsPage() {
 
         async function loadProductsPage() {
             try {
-                const [productsResponse, categoriesResponse, storesResponse] =
-                    await Promise.all([
+                const [productsResult, categoriesResult, storesResult] =
+                    await Promise.allSettled([
                         api.products(),
                         api.categories(),
                         apiGet<Store[]>("/api/stores"),
                     ]);
 
                 if (isMounted) {
-                    setProducts(
-                        (productsResponse.data ?? []).filter((product) => product.isActive),
-                    );
-                    setCategories(
-                        (categoriesResponse.data ?? []).filter(
-                            (category) => category.isActive,
-                        ),
-                    );
-                    setStores(storesResponse.filter((store) => store.isActive));
-                    setError(null);
+                    const products =
+                        productsResult.status === "fulfilled"
+                            ? (productsResult.value.data ?? []).filter(
+                                  (product) => product.isActive,
+                              )
+                            : [];
+                    const categories =
+                        categoriesResult.status === "fulfilled"
+                            ? (categoriesResult.value.data ?? []).filter(
+                                  (category) => category.isActive,
+                              )
+                            : [];
+                    const stores =
+                        storesResult.status === "fulfilled"
+                            ? storesResult.value.filter((store) => store.isActive)
+                            : [];
+
+                    setProducts(products);
+                    setCategories(categories);
+                    setStores(stores);
+                    setError(productsResult.status === "rejected" ? "ດຶງຂໍ້ມູນສິນຄ້າບໍ່ສຳເລັດ" : null);
                 }
             } catch {
                 if (isMounted) {
@@ -120,6 +132,15 @@ export function ProductsPage() {
                             onSortChange={setSort}
                         />
                     </div>
+
+                    <StoreShowcaseSection
+                        stores={stores}
+                        isLoading={isLoading}
+                        error={error}
+                        title="ຮ້ານຄ້າຍອດນິຍົມ"
+                        limit={4}
+                        className="mt-6"
+                    />
 
                     <div className="mt-5 flex gap-5">
                         <ProductFilterSidebar
