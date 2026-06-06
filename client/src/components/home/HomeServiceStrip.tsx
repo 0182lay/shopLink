@@ -1,22 +1,22 @@
 const serviceItems = [
     {
-        title: "ສົ່ງຂໍ້ຄວາມຜ່ານແຊັດ",
-        detail: "ສົ່ງອໍເດີໃຫ້ຮ້ານໄດ້ທັນທີ",
+        title: "ສັ່ງງ່າຍ",
+        detail: "ຜ່ານແຊັດ",
         icon: "chat",
     },
     {
-        title: "ສະຫຼຸບອໍເດີອັດຕະໂນມັດ",
-        detail: "ລວມລາຍການໃຫ້ຊັດເຈນ",
+        title: "ສະຫຼຸບອໍເດີ",
+        detail: "ອັດຕະໂນມັດ",
         icon: "receipt",
     },
     {
-        title: "ລວມຫຼາຍຮ້ານໃນບ່ອນດຽວ",
-        detail: "ເລືອກຊື້ສິນຄ້າໄດ້ສະດວກ",
+        title: "ຫຼາຍຮ້ານ",
+        detail: "ໃນບ່ອນດຽວ",
         icon: "store",
     },
     {
-        title: "ພ້ອມໃຫ້ຄຳແນະນຳ",
-        detail: "ສອບຖາມສິນຄ້າໄດ້ງ່າຍ",
+        title: "ແນະນຳສິນຄ້າ",
+        detail: "ຕອບໄວ",
         icon: "support",
     },
 ];
@@ -32,7 +32,7 @@ function ServiceIcon({ type }: { type: string }) {
     };
 
     return (
-        <svg viewBox="0 0 24 24" className="h-6 w-6" aria-hidden="true">
+        <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
             <path
                 d={paths[type]}
                 fill="none"
@@ -47,27 +47,24 @@ function ServiceIcon({ type }: { type: string }) {
 
 export function HomeServiceStrip() {
     return (
-        <section className="mx-auto mt-3 max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-[0_6px_18px_rgba(51,51,51,0.035)] md:grid-cols-4">
-                {serviceItems.map((item, index) => (
+        <section className="mx-auto mt-4 max-w-7xl px-3 sm:px-6 lg:px-8 md:mt-3">
+            <div className="grid grid-cols-4 overflow-hidden rounded-xl border border-gray-100 bg-white shadow-[0_4px_14px_rgba(51,51,51,0.025)]">
+                {serviceItems.map((item) => (
                     <article
                         key={item.title}
-                        className="flex cursor-default items-center gap-4 border-b border-gray-100 px-6 py-5 md:border-b-0 md:border-r last:md:border-r-0"
+                        className="flex min-h-[64px] cursor-default flex-col items-center justify-center gap-1 border-r border-gray-100 px-1.5 py-2 text-center last:border-r-0 sm:min-h-[70px] md:flex-row md:justify-start md:gap-3 md:px-5 md:text-left"
                     >
-                        <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-shop-light text-shop-primary">
+                        <div className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-shop-light text-shop-primary md:h-10 md:w-10">
                             <ServiceIcon type={item.icon} />
                         </div>
-                        <div>
-                            <h3 className="text-sm font-black text-shop-text">
+                        <div className="min-w-0">
+                            <h3 className="text-[10px] font-black leading-4 text-shop-text sm:text-[11px] md:text-[13px]">
                                 {item.title}
                             </h3>
-                            <p className="mt-1 text-xs leading-5 text-gray-500">
+                            <p className="mt-0.5 text-[9px] font-semibold leading-3 text-gray-500 sm:text-[10px] md:text-[11px] md:leading-4">
                                 {item.detail}
                             </p>
                         </div>
-                        {index < serviceItems.length - 1 ? (
-                            <span className="ml-auto hidden h-10 w-px bg-gray-100 md:block" />
-                        ) : null}
                     </article>
                 ))}
             </div>

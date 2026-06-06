@@ -1,13 +1,29 @@
 import { CircleIcon, GridIcon, HomeIcon } from "./icons";
 
 type HeaderNavProps = {
-    activePage?: "home" | "products" | "orders";
+    activePage?: "home" | "products" | "stores" | "orders";
 };
+
+function StoreIcon() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+            <path
+                d="M5 10h14l-1-5H6zM7 10v9h10v-9M9 14h6"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+            />
+        </svg>
+    );
+}
 
 const navItems = [
     { key: "home", label: "ໜ້າຫຼັກ", href: "#home", icon: <HomeIcon /> },
-    { key: "products", label: "ສິນຄ້າທັງໝົດ", href: "#products", icon: <GridIcon /> },
-    { key: "orders", label: "ຄຳສັ່ງຊື້", href: "#orders", icon: <CircleIcon type="cart" /> },
+    { key: "products", label: "ສິນຄ້າທັງໝົດ", href: "#/products", icon: <GridIcon /> },
+    { key: "stores", label: "ຮ້ານຄ້າ", href: "#/stores", icon: <StoreIcon /> },
+    { key: "orders", label: "ອໍເດີ", href: "#orders", icon: <CircleIcon type="cart" /> },
 ] as const;
 
 export function HeaderNav({ activePage = "home" }: HeaderNavProps) {

@@ -70,7 +70,7 @@ export function HomeHero() {
     }, [goToNext]);
 
     return (
-        <section className="mx-auto mt-4 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <section className="mx-auto mt-2 max-w-7xl px-4 sm:mt-4 sm:px-6 lg:px-8">
             <div
                 className={`relative min-h-[168px] overflow-hidden rounded-2xl bg-gradient-to-r ${activeSlide.gradient} shadow-[0_10px_26px_rgba(229,57,53,0.07)] ring-1 ring-red-100 sm:min-h-[300px] sm:rounded-3xl sm:shadow-[0_14px_36px_rgba(229,57,53,0.08)] md:min-h-[340px]`}
             >

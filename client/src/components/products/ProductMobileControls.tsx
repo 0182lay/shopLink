@@ -10,6 +10,21 @@ type ProductMobileControlsProps = {
     onSortChange: (sort: SortMode) => void;
 };
 
+function SelectChevron() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-4 w-4" aria-hidden="true">
+            <path
+                d="m7 10 5 5 5-5"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+            />
+        </svg>
+    );
+}
+
 export function ProductMobileControls({
     stores,
     selectedStoreId,
@@ -18,18 +33,18 @@ export function ProductMobileControls({
     onSortChange,
 }: ProductMobileControlsProps) {
     return (
-        <div className="grid grid-cols-2 gap-3 lg:hidden">
+        <div className="grid grid-cols-2 items-center gap-3 lg:hidden">
             <label className="relative min-w-0">
-                <span className="sr-only">ຮ້ານຄ້າ</span>
+                <span className="sr-only">ຕົວກອງຮ້ານຄ້າ</span>
                 <select
                     value={selectedStoreId}
                     onChange={(event) => {
                         const value = event.target.value;
                         onSelectStore(value === "all" ? "all" : Number(value));
                     }}
-                    className="h-11 w-full rounded-xl border border-red-100 bg-white px-3 pl-9 text-xs font-black text-shop-text shadow-sm outline-none transition focus:border-shop-primary"
+                    className="h-10 w-full appearance-none rounded-xl border border-red-100 bg-white px-10 text-xs font-black text-shop-text shadow-[0_8px_18px_rgba(51,51,51,0.045)] outline-none transition focus:border-shop-primary"
                 >
-                    <option value="all">ຮ້ານຄ້າ: ທຸກຮ້ານ</option>
+                    <option value="all">ຕົວກອງ</option>
                     {stores.map((store) => (
                         <option key={store.id} value={store.id}>
                             {store.name}
@@ -49,6 +64,9 @@ export function ProductMobileControls({
                         strokeWidth="2"
                     />
                 </svg>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <SelectChevron />
+                </span>
             </label>
 
             <label className="relative min-w-0">
@@ -56,12 +74,18 @@ export function ProductMobileControls({
                 <select
                     value={sort}
                     onChange={(event) => onSortChange(event.target.value as SortMode)}
-                    className="h-11 w-full rounded-xl border border-red-100 bg-white px-3 text-xs font-black text-shop-text shadow-sm outline-none transition focus:border-shop-primary"
+                    className="h-10 w-full appearance-none rounded-xl border border-red-100 bg-white px-10 text-xs font-black text-shop-text shadow-[0_8px_18px_rgba(51,51,51,0.045)] outline-none transition focus:border-shop-primary"
                 >
-                    <option value="recommended">ຮຽງຕາມ: ແນະນຳ</option>
-                    <option value="price-low">ລາຄາ: ຕ່ຳ-ສູງ</option>
-                    <option value="price-high">ລາຄາ: ສູງ-ຕ່ຳ</option>
+                    <option value="recommended">ຍອດນິຍົມ</option>
+                    <option value="price-low">ລາຄາຕ່ຳກ່ອນ</option>
+                    <option value="price-high">ລາຄາສູງກ່ອນ</option>
                 </select>
+                <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-shop-text">
+                    ↕
+                </span>
+                <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    <SelectChevron />
+                </span>
             </label>
         </div>
     );

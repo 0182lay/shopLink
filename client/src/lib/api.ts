@@ -1,6 +1,8 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, "") ??
-  "https://shoplink-api-bgy6.onrender.com";
+  (import.meta.env.DEV
+    ? "http://localhost:10000"
+    : "https://shoplink-api-4wwu.onrender.com");
 
 export type ApiResponse<T> = {
   success: boolean;
@@ -91,7 +93,9 @@ export const api = {
   health: () => request<never>("/health"),
   categories: () => request<Category[]>("/categories"),
   products: () => request<Product[]>("/products"),
+  product: (id: number | string) => request<Product>(`/products/${id}`),
   featuredProducts: () => request<Product[]>("/products/featured"),
+  stores: () => request<import("../types/store").Store[]>("/stores"),
   register: (payload: Required<AuthPayload>) =>
     request<AuthUser>("/auth/register", {
       method: "POST",

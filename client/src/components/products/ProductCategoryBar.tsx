@@ -6,19 +6,19 @@ type ProductCategoryBarProps = {
     onSelectCategory: (categoryId: number | "all") => void;
 };
 
-const fallbackIcons = ["🛍️", "🥣", "🧸", "🐠", "🌿", "👕", "🧴", "🐶"];
+const fallbackIcons = ["💻", "👕", "🏠", "🧸", "🐟", "🌿", "🐶", "🛍️"];
 
 function categoryButtonClass(isActive: boolean) {
-    return `group flex h-24 w-[calc((100vw-68px)/4)] min-w-20 max-w-28 shrink-0 flex-col items-center justify-center gap-2 rounded-xl border bg-white px-2 text-center shadow-[0_6px_18px_rgba(51,51,51,0.035)] transition hover:-translate-y-0.5 sm:h-11 sm:w-auto sm:max-w-none sm:flex-row sm:gap-2 sm:px-4 sm:text-sm sm:hover:translate-y-0 ${
+    return `group flex h-10 min-w-max shrink-0 items-center justify-center gap-2 rounded-xl border px-4 text-center shadow-[0_6px_16px_rgba(51,51,51,0.035)] transition hover:-translate-y-0.5 md:h-11 md:hover:translate-y-0 ${
         isActive
-            ? "border-shop-primary text-shop-primary sm:bg-shop-primary sm:text-white sm:shadow-[0_6px_14px_rgba(229,57,53,0.14)]"
-            : "border-red-50 text-shop-text hover:border-red-100 hover:text-shop-primary sm:border-red-100 sm:hover:border-shop-primary"
+            ? "border-shop-primary bg-shop-primary text-white shadow-[0_10px_22px_rgba(229,57,53,0.16)]"
+            : "border-red-100 bg-white text-shop-text hover:border-shop-primary hover:text-shop-primary"
     }`;
 }
 
 function categoryIconClass(isActive: boolean) {
-    return `grid h-12 w-12 place-items-center overflow-hidden rounded-full text-3xl transition sm:h-auto sm:w-auto sm:text-sm ${
-        isActive ? "text-shop-primary sm:text-white" : "text-shop-text group-hover:text-shop-primary"
+    return `grid h-5 w-5 place-items-center overflow-hidden rounded-full text-base transition ${
+        isActive ? "text-white" : "text-shop-text group-hover:text-shop-primary"
     }`;
 }
 
@@ -30,6 +30,19 @@ export function ProductCategoryBar({
     return (
         <div className="overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             <div className="flex min-w-max items-center gap-3">
+                <button
+                    type="button"
+                    onClick={() => onSelectCategory("all")}
+                    className={categoryButtonClass(selectedCategoryId === "all")}
+                >
+                    <span className={categoryIconClass(selectedCategoryId === "all")}>
+                        🛍️
+                    </span>
+                    <span className="line-clamp-1 text-xs font-black md:text-sm">
+                        ທັງໝົດ
+                    </span>
+                </button>
+
                 {categories.map((category, index) => {
                     const isActive = selectedCategoryId === category.id;
 
@@ -45,16 +58,16 @@ export function ProductCategoryBar({
                                     <img
                                         src={category.iconUrl}
                                         alt=""
-                                        className="h-full w-full object-cover sm:h-6 sm:w-6 sm:rounded-full"
+                                        className="h-full w-full object-cover"
                                     />
                                 ) : (
                                     <span>{fallbackIcons[index % fallbackIcons.length]}</span>
                                 )}
                             </span>
                             <span
-                                className={`line-clamp-1 text-[11px] font-black sm:text-sm ${
+                                className={`line-clamp-1 text-xs font-black md:text-sm ${
                                     isActive
-                                        ? "text-shop-primary sm:text-white"
+                                        ? "text-white"
                                         : "text-shop-text group-hover:text-shop-primary"
                                 }`}
                             >
