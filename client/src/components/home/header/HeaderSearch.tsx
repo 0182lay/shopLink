@@ -37,7 +37,7 @@ export function HeaderSearch({ id, compact = false }: HeaderSearchProps) {
                 onFocus={openSearchEntry}
                 onChange={(event) => setQuery(event.target.value)}
                 className="h-10 min-w-0 flex-1 px-4 text-sm font-bold outline-none placeholder:text-gray-400"
-                placeholder="ຄົ້ນຫາສິນຄ້າ..."
+                placeholder="ຄົ້ນຫາສິນຄ້າ, ຮ້ານຄ້າ..."
                 type="search"
             />
             <button

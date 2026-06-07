@@ -1,24 +1,20 @@
 import { useEffect, useMemo, useState } from "react";
+import { CartPreview } from "../components/home/CartPreview";
 import { HomeHeader } from "../components/home/HomeHeader";
 import { BagIcon, CircleIcon, SearchIcon } from "../components/home/header/icons";
 import { api, type Product } from "../lib/api";
+import { addCartItem } from "../lib/cart";
 import type { Store } from "../types/store";
 
 type ProductDetailPageProps = {
     productId: number;
 };
 
-type ServicePoint = {
-    title: string;
-    text: string;
-    icon: "shield" | "truck" | "return";
-};
-
-const servicePoints: ServicePoint[] = [
-    { title: "ຂອງແທ້ 100%", text: "ຮັບປະກັນສິນຄ້າແທ້", icon: "shield" },
-    { title: "ຈັດສົ່ງໄວ", text: "ສົ່ງໃຈ 1-2 ວັນ", icon: "truck" },
+const servicePoints = [
+    { title: "ຂອງແທ້ 100%", text: "ຮັບປະກັນສິນຄ້າ", icon: "shield" },
+    { title: "ຈັດສົ່ງໄວ", text: "ສົ່ງໃນ 1-2 ວັນ", icon: "truck" },
     { title: "ຄືນສິນຄ້າໄດ້", text: "ພາຍໃນ 7 ວັນ", icon: "return" },
-];
+] as const;
 
 const formatPrice = (price: Product["price"]) =>
     new Intl.NumberFormat("lo-LA", {
@@ -68,7 +64,7 @@ function StarIcon() {
     );
 }
 
-function ServiceIcon({ type }: { type: ServicePoint["icon"] }) {
+function ServiceIcon({ type }: { type: (typeof servicePoints)[number]["icon"] }) {
     const paths = {
         shield: "M12 3 5 6v5c0 4.5 3 8.2 7 10 4-1.8 7-5.5 7-10V6zM9 12l2 2 4-4",
         truck: "M3 7h11v9H3zM14 10h4l3 3v3h-7zM7 19h.1M18 19h.1",
@@ -121,23 +117,7 @@ function MobileProductHeader() {
                 >
                     <SearchIcon />
                 </button>
-                <button
-                    type="button"
-                    className="grid h-10 w-10 place-items-center rounded-full text-shop-text"
-                    aria-label="ແຊທ"
-                >
-                    <CircleIcon type="chat" />
-                </button>
-                <button
-                    type="button"
-                    className="relative grid h-10 w-10 place-items-center rounded-full text-shop-text"
-                    aria-label="ກະຕ່າ"
-                >
-                    <CircleIcon type="cart" />
-                    <span className="absolute right-0 top-0 grid h-5 min-w-5 place-items-center rounded-full bg-shop-primary px-1 text-[11px] font-black leading-none text-white">
-                        3
-                    </span>
-                </button>
+                <CartPreview />
             </div>
         </header>
     );
@@ -235,11 +215,21 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
     }, [product?.imageUrl]);
 
     function handleAddToCart() {
+        if (!product) {
+            return;
+        }
+
+        addCartItem({ product, store, quantity });
         setMessage("ເພີ່ມລົງກະຕ່າແລ້ວ");
     }
 
     function handleBuyNow() {
-        setMessage("ຂັ້ນຕອນສັ່ງຊື້ຈະເຮັດຕໍ່ໄປ");
+        if (!product) {
+            return;
+        }
+
+        addCartItem({ product, store, quantity });
+        window.location.hash = "#/cart";
     }
 
     return (
@@ -263,7 +253,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
                     <>
                         <div className="mb-6 hidden items-center gap-3 text-sm font-bold text-gray-500 md:flex">
                             <a href="#/home" className="hover:text-shop-primary">
-                                ໜ້າແຮກ
+                                ໜ້າຫຼັກ
                             </a>
                             <span>/</span>
                             <a href="#/products" className="hover:text-shop-primary">
@@ -322,19 +312,12 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
                                 <span className="absolute bottom-3 left-1/2 grid h-10 min-w-16 -translate-x-1/2 place-items-center rounded-full bg-white/95 px-4 text-sm font-black text-gray-600 shadow-sm md:hidden">
                                     1/5
                                 </span>
-                                <button
-                                    type="button"
-                                    className="absolute bottom-4 right-4 hidden h-11 w-11 place-items-center rounded-full bg-white text-shop-text shadow-[0_8px_18px_rgba(51,51,51,0.12)] md:grid"
-                                    aria-label="ຊູມຮູບ"
-                                >
-                                    <SearchIcon />
-                                </button>
                             </div>
 
                             <div className="md:pt-5">
                                 {product.isFeatured ? (
                                     <span className="hidden rounded-lg bg-shop-primary px-3 py-1.5 text-xs font-black text-white md:inline-flex">
-                                        -20%
+                                        ແນະນຳ
                                     </span>
                                 ) : null}
 
@@ -409,29 +392,6 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
                                         {product.description ??
                                             "ລາຍລະອຽດສິນຄ້າຈະສະແດງຢູ່ບ່ອນນີ້ ເພື່ອໃຫ້ລູກຄ້າເຂົ້າໃຈກ່ອນສັ່ງຊື້"}
                                     </p>
-                                    <button
-                                        type="button"
-                                        className="mt-2 text-sm font-black text-shop-primary"
-                                    >
-                                        ດູເພີ່ມເຕີມ⌄
-                                    </button>
-                                </div>
-
-                                <div className="mt-7">
-                                    <h2 className="text-base font-black text-shop-text">
-                                        ຂະໜາດ
-                                    </h2>
-                                    <div className="mt-3 flex gap-4">
-                                        <button className="min-w-32 rounded-xl border border-shop-primary bg-white px-6 py-4 text-center text-sm font-black text-shop-text">
-                                            2kg
-                                        </button>
-                                        <button className="min-w-32 rounded-xl border border-gray-200 bg-white px-6 py-4 text-center text-sm font-black text-shop-text">
-                                            10kg
-                                            <span className="mt-1 block text-xs font-bold text-gray-500">
-                                                {formatPrice(Number(product.price) * 3.5)}
-                                            </span>
-                                        </button>
-                                    </div>
                                 </div>
 
                                 <div className="mt-7 flex flex-wrap items-center gap-5">
@@ -492,7 +452,7 @@ export function ProductDetailPage({ productId }: ProductDetailPageProps) {
                                         className="inline-flex h-14 items-center justify-center gap-3 rounded-2xl bg-shop-primary px-4 text-sm font-black text-white shadow-[0_14px_28px_rgba(229,57,53,0.22)] transition hover:bg-shop-secondary disabled:cursor-not-allowed disabled:opacity-50 md:h-14 md:text-base"
                                     >
                                         ⚡
-                                        ສັ່ງຊື້ເລີຍ
+                                        ສົ່ງອໍເດີ້
                                     </button>
                                 </div>
 

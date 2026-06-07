@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { getAuthUser, logout } from "../../../lib/auth";
+import { CartPreview } from "../CartPreview";
 import { CircleIcon } from "./icons";
 
 export function HeaderActions() {
@@ -50,16 +51,7 @@ export function HeaderActions() {
             >
                 <CircleIcon type="chat" />
             </button>
-            <button
-                type="button"
-                className="relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-shop-light"
-                aria-label="ກະຕ່າສິນຄ້າ"
-            >
-                <CircleIcon type="cart" />
-                <span className="absolute right-1 top-1 grid h-4 min-w-4 place-items-center rounded-full bg-shop-primary px-1 text-[10px] font-bold leading-none text-white">
-                    3
-                </span>
-            </button>
+            <CartPreview />
 
             {user ? (
                 <div ref={menuRef} className="relative hidden sm:block">

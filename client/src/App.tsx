@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { CartPage } from "./pages/CartPage";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
+import { OrderHistoryPage } from "./pages/OrderHistoryPage";
 import { ProductDetailPage } from "./pages/ProductDetailPage";
 import { ProductsPage } from "./pages/ProductsPage";
 import { RegisterPage } from "./pages/RegisterPage";
@@ -14,6 +16,8 @@ type AppRoute =
     | "register"
     | "products"
     | "product-detail"
+    | "cart"
+    | "orders"
     | "stores"
     | "search"
     | "search-entry";
@@ -36,6 +40,14 @@ function getRoute(): AppRoute {
 
     if (hash.startsWith("products/")) {
         return "product-detail";
+    }
+
+    if (hash === "cart") {
+        return "cart";
+    }
+
+    if (hash === "orders") {
+        return "orders";
     }
 
     if (hash === "products" || hash.startsWith("products?")) {
@@ -82,6 +94,14 @@ function App() {
     if (route === "product-detail") {
         const productId = getProductIdFromHash();
         return productId ? <ProductDetailPage productId={productId} /> : <ProductsPage />;
+    }
+
+    if (route === "cart") {
+        return <CartPage />;
+    }
+
+    if (route === "orders") {
+        return <OrderHistoryPage />;
     }
 
     if (route === "stores") {

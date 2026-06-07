@@ -40,8 +40,8 @@ const bottomItems = [
     { key: "stores", label: "ຮ້ານຄ້າ", href: "#/stores", icon: <StoreIcon /> },
     {
         key: "orders",
-        label: "ອໍເດີ",
-        href: "#orders",
+        label: "ຄຳສັ່ງຊື້",
+        href: "#/orders",
         icon: <OrderIcon />,
         badge: 3,
     },

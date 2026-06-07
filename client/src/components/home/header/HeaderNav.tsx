@@ -21,9 +21,9 @@ function StoreIcon() {
 
 const navItems = [
     { key: "home", label: "ໜ້າຫຼັກ", href: "#home", icon: <HomeIcon /> },
-    { key: "products", label: "ສິນຄ້າທັງໝົດ", href: "#/products", icon: <GridIcon /> },
+    { key: "products", label: "ສິນຄ້າ", href: "#/products", icon: <GridIcon /> },
     { key: "stores", label: "ຮ້ານຄ້າ", href: "#/stores", icon: <StoreIcon /> },
-    { key: "orders", label: "ອໍເດີ", href: "#orders", icon: <CircleIcon type="cart" /> },
+    { key: "orders", label: "ຄຳສັ່ງຊື້", href: "#/orders", icon: <CircleIcon type="cart" /> },
 ] as const;
 
 export function HeaderNav({ activePage = "home" }: HeaderNavProps) {

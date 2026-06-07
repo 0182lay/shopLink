@@ -1,4 +1,5 @@
 import type { Product } from "../../lib/api";
+import { addCartItem } from "../../lib/cart";
 import type { Store } from "../../types/store";
 
 export type ProductCardProduct = Product & {
@@ -20,6 +21,21 @@ const formatPrice = (price: Product["price"]) =>
         currency: "LAK",
         maximumFractionDigits: 0,
     }).format(Number(price));
+
+function BagIcon() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-7 w-7" aria-hidden="true">
+            <path
+                d="M5 8h14l-1 12H6zM8 8a4 4 0 0 1 8 0"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+            />
+        </svg>
+    );
+}
 
 export function ProductGridCard({ product, store }: ProductGridCardProps) {
     const badge = product.badge ?? (product.isFeatured ? "ແນະນຳ" : null);
@@ -64,16 +80,7 @@ export function ProductGridCard({ product, store }: ProductGridCardProps) {
                     />
                 ) : (
                     <div className="grid h-16 w-16 place-items-center rounded-full bg-white/80 text-gray-400 shadow-sm md:h-20 md:w-20">
-                        <svg viewBox="0 0 24 24" className="h-8 w-8">
-                            <path
-                                d="M5 8h14l-1 12H6zM8 8a4 4 0 0 1 8 0"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="1.8"
-                            />
-                        </svg>
+                        <BagIcon />
                     </div>
                 )}
             </div>
@@ -102,7 +109,10 @@ export function ProductGridCard({ product, store }: ProductGridCardProps) {
                     </div>
                     <button
                         type="button"
-                        onClick={(event) => event.stopPropagation()}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            addCartItem({ product, store });
+                        }}
                         className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-red-100 bg-white text-shop-primary shadow-sm transition hover:border-shop-primary hover:bg-shop-primary hover:text-white md:h-9 md:w-9"
                         aria-label="ເພີ່ມໃສ່ກະຕ່າ"
                     >
