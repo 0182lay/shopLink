@@ -1,5 +1,18 @@
 import { prisma } from "../config/prisma";
 
+const publicProductSelect = {
+    id: true,
+    storeId: true,
+    categoryId: true,
+    name: true,
+    description: true,
+    price: true,
+    stock: true,
+    imageUrl: true,
+    isActive: true,
+    isFeatured: true,
+} as const;
+
 type CreateProductData = {
     storeId: number;
     categoryId?: number;
@@ -24,7 +37,9 @@ export const productService = {
         return prisma.product.findMany({
             where: {
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicProductSelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -38,6 +53,7 @@ export const productService = {
                 isActive: true,
                 isFeatured: true,
             },
+            select: publicProductSelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -52,7 +68,9 @@ export const productService = {
             where: {
                 storeId,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicProductSelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -67,7 +85,9 @@ export const productService = {
             where: {
                 categoryId,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicProductSelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -82,7 +102,9 @@ export const productService = {
             where: {
                 id,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicProductSelect,
         });
     },
 

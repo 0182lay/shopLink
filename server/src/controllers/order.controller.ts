@@ -6,6 +6,7 @@ const parseId = (id: string) => Number.parseInt(id, 10);
 const orderStatuses: OrderStatus[] = [
     "PENDING",
     "CONFIRMED",
+    "SHIPPING",
     "COMPLETED",
     "CANCELLED",
 ];

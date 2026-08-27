@@ -3,6 +3,58 @@ import { getAuthUser, logout } from "../../../lib/auth";
 import { CartPreview } from "../CartPreview";
 import { CircleIcon } from "./icons";
 
+const text = {
+    login: "\u0ec0\u0e82\u0ebb\u0ec9\u0eb2\u0ea5\u0eb0\u0e9a\u0ebb\u0e9a",
+    profile: "\u0ec2\u0e9b\u0ea3\u0ec4\u0e9f\u0ea5\u0ecc\u0e82\u0ead\u0e87\u0e82\u0ec9\u0ead\u0e8d",
+    myOrders: "\u0e84\u0eb3\u0eaa\u0eb1\u0ec8\u0e87\u0e8a\u0eb7\u0ec9\u0e82\u0ead\u0e87\u0e82\u0ec9\u0ead\u0e8d",
+    logout: "\u0ead\u0ead\u0e81\u0e88\u0eb2\u0e81\u0ea5\u0eb0\u0e9a\u0ebb\u0e9a",
+};
+
+function UserIcon() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+            <path
+                d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+            />
+        </svg>
+    );
+}
+
+function OrdersIcon() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+            <path
+                d="M7 4h10v16l-2-1-2 1-2-1-2 1-2-1zM9 8h6M9 12h6M9 16h4"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+            />
+        </svg>
+    );
+}
+
+function LogoutIcon() {
+    return (
+        <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+            <path
+                d="M10 6H6v12h4M14 8l4 4-4 4M8 12h10"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+            />
+        </svg>
+    );
+}
+
 export function HeaderActions() {
     const [user, setUser] = useState(() => getAuthUser());
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,12 +86,14 @@ export function HeaderActions() {
         return () => window.removeEventListener("mousedown", handlePointerDown);
     }, []);
 
-    const displayName = user?.name?.trim().split(/\s+/)[0] ?? "ເຂົ້າລະບົບ";
+    const displayName = user?.name?.trim().split(/\s+/)[0] ?? text.login;
+
+    const closeMenu = () => setIsMenuOpen(false);
 
     const handleLogout = () => {
         logout();
-        setIsMenuOpen(false);
-        window.location.hash = "#home";
+        closeMenu();
+        window.location.assign("#home");
     };
 
     return (
@@ -47,7 +101,7 @@ export function HeaderActions() {
             <button
                 type="button"
                 className="grid h-10 w-10 place-items-center rounded-full transition hover:bg-shop-light"
-                aria-label="ຂໍ້ຄວາມ"
+                aria-label="Messages"
             >
                 <CircleIcon type="chat" />
             </button>
@@ -105,23 +159,34 @@ export function HeaderActions() {
                                 </div>
                             </div>
 
+                            <a
+                                href="#/account"
+                                onClick={closeMenu}
+                                className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-shop-text transition hover:bg-shop-light"
+                                role="menuitem"
+                            >
+                                <UserIcon />
+                                {text.profile}
+                            </a>
+
+                            <a
+                                href="#/orders"
+                                onClick={closeMenu}
+                                className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-shop-text transition hover:bg-shop-light"
+                                role="menuitem"
+                            >
+                                <OrdersIcon />
+                                {text.myOrders}
+                            </a>
+
                             <button
                                 type="button"
                                 onClick={handleLogout}
-                                className="flex w-full items-center gap-3 px-4 py-3 text-left text-sm font-bold text-shop-primary transition hover:bg-shop-light"
+                                className="flex w-full items-center gap-3 border-t border-gray-100 px-4 py-3 text-left text-sm font-bold text-shop-primary transition hover:bg-shop-light"
                                 role="menuitem"
                             >
-                                <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
-                                    <path
-                                        d="M10 6H6v12h4M14 8l4 4-4 4M8 12h10"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                    />
-                                </svg>
-                                ອອກຈາກລະບົບ
+                                <LogoutIcon />
+                                {text.logout}
                             </button>
                         </div>
                     ) : null}
@@ -132,7 +197,7 @@ export function HeaderActions() {
                     className="hidden items-center gap-2 rounded-full px-3 py-2 text-sm font-semibold transition hover:bg-shop-light sm:flex"
                 >
                     <CircleIcon type="user" />
-                    ເຂົ້າລະບົບ
+                    {text.login}
                 </a>
             )}
         </div>

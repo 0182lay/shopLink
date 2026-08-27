@@ -48,6 +48,7 @@ model Store {
   products    Product[]
   orders      Order[]
 
+  @@index([deletedAt, isActive, createdAt])
   @@map("stores")
 }
 
@@ -65,6 +66,8 @@ model Category {
   products  Product[]
 
   @@unique([storeId, slug])
+  @@index([deletedAt, isActive, createdAt])
+  @@index([storeId, deletedAt, isActive])
   @@map("categories")
 }
 
@@ -87,12 +90,17 @@ model Product {
   category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   orderItems  OrderItem[]
 
+  @@index([deletedAt, isActive, createdAt])
+  @@index([storeId, deletedAt, isActive])
+  @@index([categoryId, deletedAt, isActive])
+  @@index([isFeatured, deletedAt, isActive])
   @@map("products")
 }
 
 enum OrderStatus {
   PENDING
   CONFIRMED
+  SHIPPING
   COMPLETED
   CANCELLED
 }

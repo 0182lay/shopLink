@@ -50,6 +50,7 @@ export const authService = {
                 name: data.name,
                 email: data.email.toLowerCase(),
                 passwordHash,
+                role: "ADMIN",
             },
             select: {
                 id: true,

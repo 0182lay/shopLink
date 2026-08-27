@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { AccountPage } from "./pages/AccountPage";
+import { AdminPage } from "./pages/AdminPage";
 import { CartPage } from "./pages/CartPage";
+import { CheckoutPage } from "./pages/CheckoutPage";
 import { HomePage } from "./pages/HomePage";
 import { LoginPage } from "./pages/LoginPage";
 import { OrderHistoryPage } from "./pages/OrderHistoryPage";
@@ -17,10 +20,34 @@ type AppRoute =
     | "products"
     | "product-detail"
     | "cart"
+    | "checkout"
     | "orders"
+    | "account"
     | "stores"
     | "search"
-    | "search-entry";
+    | "search-entry"
+    | "admin";
+
+type AdminSection =
+    | "dashboard"
+    | "orders"
+    | "products"
+    | "stores"
+    | "categories"
+    | "users"
+    | "settings"
+    | "more";
+
+const adminSections = new Set<AdminSection>([
+    "dashboard",
+    "orders",
+    "products",
+    "stores",
+    "categories",
+    "users",
+    "settings",
+    "more",
+]);
 
 function getProductIdFromHash() {
     const match = window.location.hash.match(/^#\/?products\/(\d+)/);
@@ -29,6 +56,10 @@ function getProductIdFromHash() {
 
 function getRoute(): AppRoute {
     const hash = window.location.hash.replace(/^#\/?/, "");
+
+    if (hash === "admin" || hash.startsWith("admin/")) {
+        return "admin";
+    }
 
     if (hash === "login") {
         return "login";
@@ -46,8 +77,16 @@ function getRoute(): AppRoute {
         return "cart";
     }
 
+    if (hash === "checkout") {
+        return "checkout";
+    }
+
     if (hash === "orders") {
         return "orders";
+    }
+
+    if (hash === "account" || hash.startsWith("account/")) {
+        return "account";
     }
 
     if (hash === "products" || hash.startsWith("products?")) {
@@ -69,15 +108,39 @@ function getRoute(): AppRoute {
     return "home";
 }
 
+function getAdminSection(): AdminSection {
+    const [, section] = window.location.hash.replace(/^#\/?/, "").split("/");
+
+    if (section && adminSections.has(section as AdminSection)) {
+        return section as AdminSection;
+    }
+
+    return "dashboard";
+}
+
 function App() {
-    const [route, setRoute] = useState<AppRoute>(() => getRoute());
+    const [, setHash] = useState(() => window.location.hash);
 
     useEffect(() => {
-        const handleHashChange = () => setRoute(getRoute());
+        const handleHashChange = () => {
+            const currentHash = window.location.hash;
+            setHash(currentHash);
+
+            if (currentHash && currentHash !== "#/cart" && currentHash !== "#/checkout") {
+                sessionStorage.setItem("prevPath", currentHash);
+            }
+        };
+
+        const initialHash = window.location.hash;
+        if (initialHash && initialHash !== "#/cart" && initialHash !== "#/checkout") {
+            sessionStorage.setItem("prevPath", initialHash);
+        }
 
         window.addEventListener("hashchange", handleHashChange);
         return () => window.removeEventListener("hashchange", handleHashChange);
     }, []);
+
+    const route = getRoute();
 
     if (route === "login") {
         return <LoginPage />;
@@ -100,8 +163,16 @@ function App() {
         return <CartPage />;
     }
 
+    if (route === "checkout") {
+        return <CheckoutPage />;
+    }
+
     if (route === "orders") {
         return <OrderHistoryPage />;
+    }
+
+    if (route === "account") {
+        return <AccountPage />;
     }
 
     if (route === "stores") {
@@ -114,6 +185,10 @@ function App() {
 
     if (route === "search-entry") {
         return <SearchEntryPage />;
+    }
+
+    if (route === "admin") {
+        return <AdminPage section={getAdminSection()} />;
     }
 
     return <HomePage />;

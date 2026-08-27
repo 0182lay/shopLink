@@ -1,5 +1,3 @@
-import { HomeHeader } from "../components/home/HomeHeader";
-import { MobileBottomNav } from "../components/home/MobileBottomNav";
 import {
     getCartSubtotal,
     removeCartItem,
@@ -30,7 +28,13 @@ function BackIcon() {
     );
 }
 
-function SimpleIcon({ type }: { type: "trash" | "heart" | "truck" | "bag" | "shield" | "return" }) {
+function SimpleIcon({
+    type,
+    className = "h-5 w-5",
+}: {
+    type: "trash" | "heart" | "truck" | "bag" | "shield" | "return";
+    className?: string;
+}) {
     const paths = {
         trash: "M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3",
         heart: "M20.8 8.8c0 5.3-8.8 10-8.8 10s-8.8-4.7-8.8-10A4.7 4.7 0 0 1 12 5.7a4.7 4.7 0 0 1 8.8 3.1Z",
@@ -41,7 +45,7 @@ function SimpleIcon({ type }: { type: "trash" | "heart" | "truck" | "bag" | "shi
     };
 
     return (
-        <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
             <path
                 d={paths[type]}
                 fill="none"
@@ -68,27 +72,30 @@ function CheckBox({ checked = true }: { checked?: boolean }) {
     );
 }
 
-function QuantitySelector({ item }: { item: CartItem }) {
+function QuantitySelector({ item, small = false }: { item: CartItem; small?: boolean }) {
+    const containerClass = small
+        ? "inline-grid h-6 grid-cols-3 overflow-hidden rounded-md border border-gray-200 bg-white text-[11px] font-black text-shop-text"
+        : "inline-grid h-9 grid-cols-3 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm font-black text-shop-text";
+        
+    const btnClass = small ? "grid w-6 place-items-center transition hover:bg-red-50" : "grid w-9 place-items-center transition hover:bg-red-50";
+    const spanClass = small ? "grid w-6 place-items-center border-x border-gray-200" : "grid w-10 place-items-center border-x border-gray-200";
+
     return (
-        <div className="inline-grid h-9 grid-cols-3 overflow-hidden rounded-lg border border-gray-200 bg-white text-sm font-black text-shop-text">
+        <div className={containerClass}>
             <button
                 type="button"
-                onClick={() =>
-                    updateCartItemQuantity(item.productId, item.quantity - 1)
-                }
-                className="grid w-9 place-items-center text-gray-500"
+                onClick={() => updateCartItemQuantity(item.productId, item.quantity - 1)}
+                className={`${btnClass} text-gray-500 hover:text-shop-primary`}
             >
                 -
             </button>
-            <span className="grid w-10 place-items-center border-x border-gray-200">
+            <span className={spanClass}>
                 {item.quantity}
             </span>
             <button
                 type="button"
-                onClick={() =>
-                    updateCartItemQuantity(item.productId, item.quantity + 1)
-                }
-                className="grid w-9 place-items-center text-shop-text"
+                onClick={() => updateCartItemQuantity(item.productId, item.quantity + 1)}
+                className={`${btnClass} text-shop-text hover:text-shop-primary`}
             >
                 +
             </button>
@@ -104,7 +111,7 @@ function CartItemRow({ item }: { item: CartItem }) {
             </div>
 
             <div className="grid grid-cols-[22px_96px_minmax(0,1fr)] gap-3 md:contents">
-                <div className="flex pt-9 md:hidden">
+                <div className="flex items-center justify-center md:hidden">
                     <CheckBox />
                 </div>
 
@@ -112,64 +119,64 @@ function CartItemRow({ item }: { item: CartItem }) {
                     <img
                         src={item.imageUrl}
                         alt=""
-                        className="h-28 w-24 rounded-xl object-cover md:h-[130px] md:w-[120px]"
+                        className="h-24 w-24 rounded-xl object-cover md:h-[130px] md:w-[120px]"
                     />
                 ) : (
-                    <div className="grid h-28 w-24 place-items-center rounded-xl bg-shop-light text-shop-primary md:h-[130px] md:w-[120px]">
+                    <div className="grid h-24 w-24 place-items-center rounded-xl bg-shop-light text-shop-primary md:h-[130px] md:w-[120px]">
                         <SimpleIcon type="bag" />
                     </div>
                 )}
 
-                <div className="min-w-0">
-                    <h3 className="line-clamp-2 text-sm font-black leading-snug text-shop-text md:text-lg">
-                        {item.name}
-                    </h3>
-                    <p className="mt-1 line-clamp-1 text-xs font-semibold text-gray-600 md:text-sm">
-                        {item.detail}
-                    </p>
-                    <span className="mt-2 inline-flex rounded-md bg-gray-100 px-2 py-1 text-xs font-bold text-gray-600">
-                        {item.variant}
-                    </span>
-                    <div className="mt-2 flex flex-wrap items-center gap-2">
-                        <span className="text-sm font-black text-shop-primary md:text-base">
-                            {formatPrice(item.price)}
-                        </span>
-                        {item.oldPrice ? (
-                            <span className="text-xs font-bold text-gray-400 line-through md:text-sm">
-                                {formatPrice(item.oldPrice)}
-                            </span>
-                        ) : null}
-                    </div>
-                    <p className="mt-2 flex items-center gap-1 text-xs font-black text-green-600">
-                        <span className="grid h-4 w-4 place-items-center rounded-full bg-green-100">
-                            ✓
-                        </span>
-                        ພ້ອມສົ່ງ
-                    </p>
-
-                    <div className="mt-3 flex items-center justify-between gap-2 md:hidden">
-                        <QuantitySelector item={item} />
-                        <div className="flex items-center gap-1">
-                            <button
-                                type="button"
-                                className="grid h-9 w-9 place-items-center rounded-full text-gray-600 hover:bg-red-50 hover:text-shop-primary"
-                                aria-label="Favorite"
-                            >
-                                <SimpleIcon type="heart" />
-                            </button>
+                <div className="min-w-0 flex flex-col justify-between">
+                    <div>
+                        <div className="flex items-start justify-between gap-2">
+                            <h3 className="line-clamp-1 text-sm font-black leading-snug text-shop-text md:text-lg">
+                                {item.name}
+                            </h3>
                             <button
                                 type="button"
                                 onClick={() => removeCartItem(item.productId)}
-                                className="grid h-9 w-9 place-items-center rounded-full text-gray-600 hover:bg-red-50 hover:text-shop-primary"
+                                className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-gray-400 hover:bg-red-50 hover:text-shop-primary transition md:hidden"
                                 aria-label="Remove"
                             >
-                                <SimpleIcon type="trash" />
+                                <SimpleIcon type="trash" className="h-4 w-4" />
                             </button>
                         </div>
+                        <p className="mt-0.5 line-clamp-1 text-[11px] font-semibold text-gray-500 md:text-sm">
+                            {item.detail}
+                        </p>
+                        <div className="mt-1 flex flex-wrap items-center gap-2 md:hidden">
+                            <span className="rounded bg-gray-100 px-1.5 py-0.5 text-[10px] font-bold text-gray-600">
+                                {item.variant ?? "1 ຊິ້ນ"}
+                            </span>
+                            <span className="text-[10px] font-black text-green-600 flex items-center gap-0.5">
+                                <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                ພ້ອມສົ່ງ
+                            </span>
+                        </div>
+                        <div className="mt-1 hidden md:flex">
+                            <span className="inline-flex rounded-md bg-gray-100 px-2 py-1 text-xs font-bold text-gray-600">
+                                {item.variant ?? "1 ຊິ້ນ"}
+                            </span>
+                        </div>
+                        {/* Desktop Price */}
+                        <p className="mt-1.5 hidden text-base font-black text-shop-primary md:block">
+                            {formatPrice(item.price)}
+                        </p>
+                        {/* Mobile Price & Quantity Selector */}
+                        <div className="mt-2 flex items-center justify-between gap-2 md:hidden">
+                            <span className="text-xs font-black text-shop-primary sm:text-sm">
+                                {formatPrice(item.price)}
+                            </span>
+                            <QuantitySelector item={item} small />
+                        </div>
+                        <p className="mt-1.5 hidden items-center gap-1 text-xs font-black text-green-600 md:flex">
+                            <span className="grid h-4 w-4 place-items-center rounded-full bg-green-100">
+                                ✓
+                            </span>
+                            ພ້ອມສົ່ງ
+                        </p>
                     </div>
-                    <p className="mt-2 text-right text-base font-black text-shop-primary md:hidden">
-                        {formatPrice(item.price * item.quantity)}
-                    </p>
                 </div>
             </div>
 
@@ -246,43 +253,6 @@ function StoreGroup({ store, items }: { store: string; items: CartItem[] }) {
     );
 }
 
-function CartSummaryCard({ subtotal, count }: { subtotal: number; count: number }) {
-    return (
-        <aside className="hidden space-y-4 lg:block">
-            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_10px_30px_rgba(51,51,51,0.05)]">
-                <h2 className="text-2xl font-black text-shop-text">ສະຫຼຸບຄຳສັ່ງຊື້</h2>
-                <div className="mt-6 space-y-4 text-sm font-bold text-gray-600">
-                    <div className="flex justify-between">
-                        <span>ລວມສິນຄ້າ ({count} ຊິ້ນ)</span>
-                        <span className="text-shop-text">{formatPrice(subtotal)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span>ສ່ວນຫຼຸດ</span>
-                        <span className="text-shop-primary">- {formatPrice(0)}</span>
-                    </div>
-                    <div className="flex justify-between">
-                        <span>ຄູປອງສ່ວນຫຼຸດ</span>
-                        <button type="button" className="font-black text-shop-primary">
-                            ໃຊ້ຄູປອງ
-                        </button>
-                    </div>
-                </div>
-                <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-6">
-                    <span className="font-black text-shop-text">ຍອດລວມທັງໝົດ</span>
-                    <span className="text-3xl font-black text-shop-primary">
-                        {formatPrice(subtotal)}
-                    </span>
-                </div>
-                <button type="button" className="mt-6 h-14 w-full rounded-xl bg-shop-primary text-base font-black text-white shadow-[0_14px_28px_rgba(229,57,53,0.18)] hover:bg-shop-secondary">
-                    ສົ່ງອໍເດີ້ທັງໝົດ ({count})
-                </button>
-            </div>
-
-            <ServicePanel />
-        </aside>
-    );
-}
-
 function ServicePanel() {
     const services = [
         { title: "ຂອງແທ້ 100%", text: "ຮັບປະກັນສິນຄ້າທຸກຊິ້ນ", icon: "shield" },
@@ -307,24 +277,83 @@ function ServicePanel() {
     );
 }
 
-function MobileCartHeader({ count }: { count: number }) {
+function CartSummaryCard({
+    subtotal,
+    count,
+    onCheckout,
+}: {
+    subtotal: number;
+    count: number;
+    onCheckout: () => void;
+}) {
     return (
-        <header className="sticky top-0 z-40 bg-white/95 px-5 pb-4 pt-8 shadow-[0_8px_24px_rgba(51,51,51,0.04)] backdrop-blur md:hidden">
-            <div className="flex items-start justify-between gap-4">
+        <aside className="hidden space-y-4 lg:block">
+            <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_10px_30px_rgba(51,51,51,0.05)]">
+                <h2 className="text-2xl font-black text-shop-text">ສະຫຼຸບການສັ່ງຊື້</h2>
+                <div className="mt-6 space-y-4 text-sm font-bold text-gray-600">
+                    <div className="flex justify-between">
+                        <span>ລວມສິນຄ້າ ({count} ຊິ້ນ)</span>
+                        <span className="text-shop-text">{formatPrice(subtotal)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>ສ່ວນຫຼຸດ</span>
+                        <span className="text-shop-primary">- {formatPrice(0)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                        <span>ຄູປອງສ່ວນຫຼຸດ</span>
+                        <button type="button" className="font-black text-shop-primary">
+                            ໃຊ້ຄູປອງ
+                        </button>
+                    </div>
+                </div>
+                <div className="mt-6 flex items-center justify-between border-t border-gray-100 pt-6">
+                    <span className="font-black text-shop-text">ຍອດລວມທັງໝົດ</span>
+                    <span className="text-3xl font-black text-shop-primary">
+                        {formatPrice(subtotal)}
+                    </span>
+                </div>
                 <button
                     type="button"
-                    onClick={() => window.history.back()}
-                    className="mt-1 grid h-10 w-10 place-items-center text-shop-text"
+                    onClick={onCheckout}
+                    className="mt-6 h-14 w-full rounded-xl bg-shop-primary text-base font-black text-white shadow-[0_14px_28px_rgba(229,57,53,0.18)] hover:bg-shop-secondary disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={count === 0}
+                >
+                    ສັ່ງຊື້ທັງໝົດ ({count})
+                </button>
+            </div>
+
+            <ServicePanel />
+        </aside>
+    );
+}
+
+function MobileCartHeader({ count }: { count: number }) {
+    const handleBack = () => {
+        const prevPath = sessionStorage.getItem("prevPath");
+        if (prevPath) {
+            window.location.hash = prevPath;
+        } else {
+            window.location.hash = "#/";
+        }
+    };
+
+    return (
+        <header className="sticky top-0 z-40 border-b border-red-100 bg-white/95 px-4 py-4 shadow-[0_8px_24px_rgba(51,51,51,0.04)] backdrop-blur md:hidden">
+            <div className="mx-auto flex max-w-3xl items-center gap-3">
+                <button
+                    type="button"
+                    onClick={handleBack}
+                    className="grid h-10 w-10 place-items-center rounded-full text-shop-text hover:bg-shop-light"
                     aria-label="Back"
                 >
                     <BackIcon />
                 </button>
-                <div className="min-w-0 flex-1">
-                    <h1 className="text-2xl font-black text-shop-text">
+                <div>
+                    <h1 className="text-lg font-black md:text-2xl">
                         ກະຕ່າຂອງຂ້ອຍ ({count})
                     </h1>
-                    <p className="mt-1 text-sm font-semibold text-gray-500">
-                        ກວດສອບລາຍການສິນຄ້າ ແລະ ດຳເນີນການສັ່ງຊື້ໄດ້ເລີຍ
+                    <p className="text-xs font-semibold text-gray-500 md:text-sm">
+                        ກວດສອບລາຍການກ່ອນສັ່ງຊື້
                     </p>
                 </div>
             </div>
@@ -332,7 +361,15 @@ function MobileCartHeader({ count }: { count: number }) {
     );
 }
 
-function CheckoutBar({ subtotal, count }: { subtotal: number; count: number }) {
+function CheckoutBar({
+    subtotal,
+    count,
+    onCheckout,
+}: {
+    subtotal: number;
+    count: number;
+    onCheckout: () => void;
+}) {
     return (
         <div className="fixed inset-x-4 bottom-4 z-[130] rounded-2xl border border-gray-200 bg-white p-3 shadow-[0_14px_40px_rgba(51,51,51,0.16)] md:inset-x-8">
             <div className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
@@ -346,8 +383,12 @@ function CheckoutBar({ subtotal, count }: { subtotal: number; count: number }) {
                         {formatPrice(subtotal)}
                     </span>
                 </div>
-                <button type="button" className="h-14 rounded-xl bg-shop-primary px-5 text-sm font-black text-white shadow-[0_14px_28px_rgba(229,57,53,0.18)] sm:min-w-64 sm:text-base">
-                    ສົ່ງອໍເດີ້ທັງໝົດ ({count})
+                <button
+                    type="button"
+                    onClick={onCheckout}
+                    className="h-14 rounded-xl bg-shop-primary px-5 text-sm font-black text-white shadow-[0_14px_28px_rgba(229,57,53,0.18)] sm:min-w-64 sm:text-base"
+                >
+                    ສັ່ງຊື້ທັງໝົດ ({count})
                 </button>
             </div>
         </div>
@@ -363,14 +404,19 @@ export function CartPage() {
         items: cartItems.filter((item) => item.storeName === store),
     }));
 
+    const handleCheckout = () => {
+        if (cartItems.length === 0) {
+            return;
+        }
+
+        window.location.hash = "#/checkout";
+    };
+
     return (
         <main className="min-h-screen bg-gradient-to-b from-white via-[#fffafa] to-[#fff4f1] pb-32 text-shop-text">
-            <div className="hidden md:block">
-                <HomeHeader activePage="orders" />
-            </div>
             <MobileCartHeader count={count} />
 
-            <div className="mx-auto max-w-7xl px-4 pt-6 md:px-6 md:pt-36 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 pt-6 md:px-6 md:pt-10 lg:px-8">
                 <div className="mb-6 hidden items-end justify-between gap-4 md:flex">
                     <div>
                         <h1 className="text-3xl font-black text-shop-text">
@@ -382,10 +428,14 @@ export function CartPage() {
                     </div>
                 </div>
 
-                <div className="mb-4 flex items-center gap-3 md:hidden">
-                    <CheckBox />
-                    <span className="text-base font-black text-gray-600">ເລືອກສິນຄ້າທັງໝົດ</span>
-                </div>
+                {count > 0 ? (
+                    <div className="mb-4 flex items-center gap-3 md:hidden">
+                        <CheckBox />
+                        <span className="text-base font-black text-gray-600">
+                            ເລືອກສິນຄ້າທັງໝົດ
+                        </span>
+                    </div>
+                ) : null}
 
                 <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
                     <div className="space-y-5">
@@ -407,16 +457,19 @@ export function CartPage() {
                                 </a>
                             </div>
                         )}
-                        <div className="lg:hidden">
-                            <ServicePanel />
-                        </div>
+                        {count > 0 ? (
+                            <div className="lg:hidden">
+                                <ServicePanel />
+                            </div>
+                        ) : null}
                     </div>
-                    <CartSummaryCard subtotal={subtotal} count={count} />
+                    <CartSummaryCard subtotal={subtotal} count={count} onCheckout={handleCheckout} />
                 </div>
             </div>
 
-            {count > 0 ? <CheckoutBar subtotal={subtotal} count={count} /> : null}
-            <MobileBottomNav activePage="orders" />
+            {count > 0 ? (
+                <CheckoutBar subtotal={subtotal} count={count} onCheckout={handleCheckout} />
+            ) : null}
         </main>
     );
 }

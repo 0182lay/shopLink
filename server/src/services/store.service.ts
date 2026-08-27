@@ -1,5 +1,15 @@
 import { prisma } from "../config/prisma";
 
+const publicStoreSelect = {
+    id: true,
+    name: true,
+    slug: true,
+    description: true,
+    logoUrl: true,
+    bannerUrl: true,
+    isActive: true,
+} as const;
+
 type CreateStoreData = {
     name: string;
     slug: string;
@@ -20,7 +30,9 @@ export const storeService = {
         return prisma.store.findMany({
             where: {
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicStoreSelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -35,7 +47,9 @@ export const storeService = {
             where: {
                 id,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicStoreSelect,
         });
     },
 
@@ -47,7 +61,9 @@ export const storeService = {
             where: {
                 slug,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicStoreSelect,
         });
     },
 

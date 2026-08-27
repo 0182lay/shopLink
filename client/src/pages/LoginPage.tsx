@@ -87,16 +87,15 @@ export function LoginPage() {
     const [message, setMessage] = useState<{
         type: "success" | "error";
         text: string;
-    } | null>(null);
+    } | null>(() => {
+        const authMessage = sessionStorage.getItem("authMessage");
+
+        return authMessage ? { type: "success", text: authMessage } : null;
+    });
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        const authMessage = sessionStorage.getItem("authMessage");
-
-        if (authMessage) {
-            setMessage({ type: "success", text: authMessage });
-            sessionStorage.removeItem("authMessage");
-        }
+        sessionStorage.removeItem("authMessage");
     }, []);
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {

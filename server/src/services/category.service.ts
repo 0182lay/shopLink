@@ -1,5 +1,15 @@
 import { prisma } from "../config/prisma";
 
+const publicCategorySelect = {
+    id: true,
+    storeId: true,
+    name: true,
+    slug: true,
+    iconUrl: true,
+    isActive: true,
+    createdAt: true,
+} as const;
+
 type CreateCategoryData = {
     storeId: number;
     name: string;
@@ -19,7 +29,9 @@ export const categoryService = {
         return prisma.category.findMany({
             where: {
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicCategorySelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -34,7 +46,9 @@ export const categoryService = {
             where: {
                 storeId,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicCategorySelect,
             orderBy: {
                 createdAt: "desc",
             },
@@ -49,7 +63,9 @@ export const categoryService = {
             where: {
                 id,
                 deletedAt: null,
+                isActive: true,
             },
+            select: publicCategorySelect,
         });
     },
 

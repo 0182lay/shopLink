@@ -16,6 +16,25 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
+const publicCatalogCachePaths = [
+    /^\/api\/products(?:\/(?:featured|\d+))?$/,
+    /^\/api\/categories(?:\/\d+)?$/,
+    /^\/api\/stores(?:\/(?:slug\/[^/]+|\d+))?$/,
+    /^\/api\/stores\/\d+\/(?:products|categories)$/,
+    /^\/api\/categories\/\d+\/products$/,
+];
+
+app.use((req, res, next) => {
+    if (
+        req.method === "GET" &&
+        publicCatalogCachePaths.some((path) => path.test(req.path))
+    ) {
+        res.setHeader("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
+    }
+
+    next();
+});
+
 app.get("/", (_req, res) => {
     return res.status(200).json({
         success: true,

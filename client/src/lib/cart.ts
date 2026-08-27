@@ -127,6 +127,10 @@ export function removeCartItem(productId: number) {
     writeCart(safeReadCart().filter((item) => item.productId !== productId));
 }
 
+export function clearCart() {
+    writeCart([]);
+}
+
 export function useCartItems() {
     return useSyncExternalStore(subscribe, safeReadCart, () => EMPTY_CART);
 }

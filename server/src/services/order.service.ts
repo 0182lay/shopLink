@@ -294,10 +294,13 @@ export const orderService = {
             };
         }
 
+        const isDecrementedState = (s: OrderStatus) =>
+            s === "CONFIRMED" || s === "SHIPPING" || s === "COMPLETED";
+
         const shouldDecreaseStock =
-            order.status !== "CONFIRMED" && status === "CONFIRMED";
+            !isDecrementedState(order.status) && isDecrementedState(status);
         const shouldRestoreStock =
-            order.status === "CONFIRMED" && status === "CANCELLED";
+            isDecrementedState(order.status) && status === "CANCELLED";
 
         const updatedOrder = await prisma.$transaction(async (tx) => {
             if (shouldDecreaseStock) {

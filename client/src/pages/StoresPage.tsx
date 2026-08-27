@@ -133,11 +133,11 @@ export function StoresPage() {
 
     return (
         <main className="min-h-screen bg-gradient-to-b from-white via-[#fffafa] to-[#fff4f1] pb-24 pt-[70px] text-shop-text md:pb-10 md:pt-28">
-            <HomeHeader activePage="stores" />
+            <HomeHeader activePage="stores" title="ຮ້ານຄ້າທັງໝົດ" hideSearch />
 
             <section className="mx-auto max-w-7xl px-3 py-3 sm:px-6 md:py-5 lg:px-8">
                 <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-                    <div>
+                    <div className="hidden">
                         <h1 className="text-2xl font-black text-shop-text md:text-4xl">
                             ຮ້ານຄ້າທັງໝົດ
                         </h1>
@@ -146,7 +146,7 @@ export function StoresPage() {
                         </p>
                     </div>
 
-                    <label className="relative w-fit">
+                    <label className="relative w-fit md:ml-auto">
                         <span className="sr-only">ຈັດຮຽງ</span>
                         <select
                             value={sort}

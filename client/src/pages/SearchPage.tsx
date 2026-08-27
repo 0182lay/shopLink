@@ -138,9 +138,9 @@ function BackIcon() {
     );
 }
 
-function SearchIcon() {
+function SearchIcon({ className = "h-5 w-5" }: { className?: string }) {
     return (
-        <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <svg viewBox="0 0 24 24" className={className} aria-hidden="true">
             <path
                 d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z"
                 fill="none"
@@ -207,33 +207,33 @@ function SearchResultHeader({
                         <BackIcon />
                     </button>
 
-                    <form onSubmit={handleSubmit} className="flex min-w-0 overflow-hidden rounded-2xl border border-red-100 bg-white shadow-sm md:mx-auto md:w-full md:max-w-4xl">
-                        <div className="grid h-11 w-12 shrink-0 place-items-center text-gray-500">
-                            <SearchIcon />
+                    <form onSubmit={handleSubmit} className="flex h-11 min-w-0 flex-1 overflow-hidden rounded-full border border-red-100 bg-[#f7f7f9] focus-within:bg-white focus-within:border-shop-primary focus-within:ring-4 focus-within:ring-red-50 transition-all shadow-xs pl-1 pr-1 items-center md:mx-auto md:w-full md:max-w-4xl">
+                        <div className="grid h-9 w-10 shrink-0 place-items-center text-gray-400">
+                            <SearchIcon className="h-4.5 w-4.5" />
                         </div>
                         <input
                             value={query}
                             onChange={(event) => onQueryChange(event.target.value)}
-                            className="h-11 min-w-0 flex-1 px-1 text-sm font-bold outline-none placeholder:text-gray-400 md:text-base"
+                            className="min-w-0 flex-1 bg-transparent px-1 text-sm font-bold outline-none placeholder:text-gray-400 py-1.5 md:text-base"
                             placeholder="ຄົ້ນຫາສິນຄ້າ..."
                             type="search"
                         />
-                        {query ? (
-                            <button
-                                type="button"
-                                onClick={() => onQueryChange("")}
-                                className="grid h-11 w-10 shrink-0 place-items-center text-gray-400"
-                                aria-label="ລຶບຄຳຄົ້ນຫາ"
-                            >
-                                ×
-                            </button>
-                        ) : null}
+                        {/* Always render clear button to prevent layout shift */}
+                        <button
+                            type="button"
+                            onClick={() => onQueryChange("")}
+                            className="grid h-9 w-9 shrink-0 place-items-center text-gray-400 hover:text-shop-primary cursor-pointer hover:bg-gray-200/50 rounded-full mr-1 transition-opacity"
+                            aria-label="ລຶບຄຳຄົ້ນຫາ"
+                            style={{ visibility: query ? "visible" : "hidden" }}
+                        >
+                            ×
+                        </button>
                         <button
                             type="submit"
-                            className="hidden h-11 w-14 shrink-0 place-items-center bg-shop-primary text-white transition hover:bg-shop-secondary md:grid"
+                            className="grid h-9 w-9 shrink-0 place-items-center bg-shop-primary text-white rounded-full transition hover:bg-red-600 shadow-sm cursor-pointer"
                             aria-label="ຄົ້ນຫາ"
                         >
-                            <SearchIcon />
+                            <SearchIcon className="h-4 w-4" />
                         </button>
                     </form>
 
